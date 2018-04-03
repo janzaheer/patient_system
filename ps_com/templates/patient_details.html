@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-12">
+        <br>
+        <a href="{% url 'patient_add' %}"><button type="button" class="btn btn-primary" style="float: left">Patient List</button></a>
+        <br><br><br>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Patient Details
+            </div>
+            <div class="panel-body">
+                <strong>Patient ID:</strong>   {{ patient.patient_id }}<br>
+                <strong>NAME:</strong>     {{ patient.first_name }} {{ patient.last_name }}<br>
+                <strong>DOB:</strong>     {{ patient.date_of_birth }}<br>
+                <strong>Sex:</strong>     {{ patient.sex }}<br>
+                <strong>Blood Group:</strong>     {{ patient.blood_group }}<br><br>
+                {% for details in patient_details %}
+                    <div class="well">
+                        <dl>
+                            <dt>Date</dt>  <dd> - {{ details.created_at }}</dd><br>
+                            <dt>Doctor:</dt> <dd> - {{ details.doctor_name }}</dd><br>
+                            <dt>Details:</dt> <dd>{{ details.detail }}</dd><br>
+                        </dl>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

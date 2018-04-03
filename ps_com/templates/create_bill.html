@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-6">
+        <br>
+        <a href="{% url 'create_bill' %}"><button type="button" class="btn btn-primary" style="float: left">Back to Patient List</button></a>
+        <br><br><br>
+        <div class="content-panel">
+            <h3 class="text-center">Create New Bill</h3>
+            <div class="panel-body">
+                <form class="form-horizontal" action="{% url 'create_bill' %}" method="post" >
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control patient_id" name="patient_id" placeholder="Patient ID"><br>
+                            <input type="number" class="form-control amount" name="amount" placeholder="Amount"><br>
+                            <input type="number" class="form-control discount" name="discount" placeholder="discount"><br>
+                            <button type="submit" class="btn btn-primary" style="float: right">Add Bill</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

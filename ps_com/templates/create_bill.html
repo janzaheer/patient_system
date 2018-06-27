@@ -7,17 +7,70 @@
         <div class="content-panel">
             <h3 class="text-center">Create New Bill</h3>
             <div class="panel-body">
-                <form class="form-horizontal" action="{% url 'create_bill' %}" method="post" >
+                <form class="form-horizontal add-form" action="{% url 'create_bill' %}" method="post" >
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input type="text" class="form-control patient_id" name="patient_id" placeholder="Patient ID"><br>
+                            <span class="patient-error" style="color: red; display: none">Please Add Patient ID</span>
+                            <input type="text" class="form-control patient_id" name="patient_id" onkeyup="checkDec(this);" placeholder="Patient ID"><br>
+                            <span class="amount-error" style="color: red; display: none">Please Add ammont</span>
                             <input type="number" class="form-control amount" name="amount" placeholder="Amount"><br>
-                            <input type="number" class="form-control discount" name="discount" placeholder="discount"><br>
-                            <button type="submit" class="btn btn-primary" style="float: right">Add Bill</button>
+                            <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control discount" name="discount" placeholder="discount"><br>
+                            <button type="button" class="btn btn-primary" style="float: right">Add Bill</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+    $('.document').ready(function () {
+        $('.btn-primary').on('click',function () {
+                var error = false;
+            if ($('.patient_id').val()=="" ) {
+                $('.patient-error').show();
+                error = true;
+            }
+            else {
+                $('.patient-error').hide();
+            }
+            if ($('.amount').val()==""){
+                $('.amount-error').show();
+                error = true;
+            }
+            else {
+                $('.amount-error').hide();
+            }
+            if (error == false){
+                $('.add-form').submit();
+            }
+        })
+
+    })
+    $('.patient_id').keyup(function () {
+        $('.patient-error').hide();
+        checkDec(this);
+    });
+    function checkDec(el){
+             var ex = /^[0-9]+\.?[0-9]*$/;
+             if(ex.test(el.value)==false){
+                 el.value = el.value.substring(0,el.value.length - 1);
+             }
+         }
+    $('.amount').keyup(function () {
+        $('.amount-error').hide();
+        checkDec(this);
+    })
+    function checkDec(el){
+             var ex = /^[0-9]+\.?[0-9]*$/;
+             if(ex.test(el.value)==false){
+                 el.value = el.value.substring(0,el.value.length - 1);
+             }
+         }
+
+
+
+
+
+    </script>
 {% endblock %}

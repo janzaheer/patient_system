@@ -135,3 +135,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
+
+
+from patient_system.settings_local import *

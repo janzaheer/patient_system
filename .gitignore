@@ -20,4 +20,3 @@
 
 /patient_system/settings_local.py
 db.sqlite3
-*.pyc

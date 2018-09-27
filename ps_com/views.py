@@ -191,9 +191,9 @@ class PatientBillDisplayView(TemplateView):
         return context
 
 
-class PatientEditView(UpdateView):
+class PatientUpdateView(UpdateView):
     form_class = PatientForm
-    template_name = 'edit_Patient.html'
+    template_name = 'patient_update.html'
     model = Patient
     success_url = reverse_lazy('patient_list')
 

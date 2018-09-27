@@ -13,8 +13,8 @@
                             <span class="patient-error" style="color: red; display: none">Please Add Patient ID</span>
                             <input type="text" class="form-control patient_id" name="patient_id" onkeyup="checkDec(this);" placeholder="Patient ID"><br>
                             <span class="amount-error" style="color: red; display: none">Please Add ammont</span>
-                            <input type="number" class="form-control amount" name="amount" placeholder="Amount"><br>
-                            <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control discount" name="discount" placeholder="discount"><br>
+                            <input type="number" class="form-control amount" name="amount" placeholder="Amount" ><br>
+                            <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control discount" name="discount" placeholder="discount" value="0"><br>
                             <button type="button" class="btn btn-primary" style="float: right">Add Bill</button>
                         </div>
                     </div>

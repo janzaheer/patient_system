@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-6">
+        <br>
+        <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-primary" style="float: left">Back to Patient List</button></a>
+        <br><br><br>
+        <div class="content-panel">
+            <h3 class="text-center">{{ object.first_name|title }} {{ object.last_name|title }}  | <small>Update Patient</small></h3>
+            <div class="panel-body">
+                <form class="form-horizontal add-submit" action="{% url 'edit_patient' pk=object.id %}" method="post" >
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="col-sm-12     ">
+                            <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
+                            <input type="text" class="form-control first_name" name="first_name" placeholder="First Name" value="{{ object.first_name }}"><br>
+                            <input type="text" class="form-control last_name" name="last_name" placeholder="Last Name(optional)" value="{{ object.last_name }}"><br>
+                            <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
+                            <input type="text"  class="form-control phone" name="phone" placeholder="Phone" value="{{ object.phone }}"><br>
+                            <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
+                            <input type="date" class="form-control date_of_birth" name="date_of_birth" value="{{ object.date_of_birth }}"><br>
+                            <select class="form-control sex-option" name="sex" value="{{ object.sex }}">
+                                <option>male</option>
+                                <option>female</option>
+                            </select><br>
+                            <select class="form-control blood-group" name="blood_group" value="{{ object.blood_group }}">
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select><br>
+                            <button type="button" class="btn btn-primary" style="float: right">Add Patient</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    $('.document').ready(function () {
+        $('.btn-primary').on ('click', function () {
+                var error = false;
+            if ($('.first_name').val()==""){
+                $('.name_error').show();
+                error = true;
+            }
+            else {
+                $('.name_error').hide()
+            }
+            if ($('.phone').val()==""){
+                $('.phone_error').show();
+                error = true;
+            }
+            else{
+                $('.phone_error').hide();
+            }
+            if ($('.date_of_birth').val()==""){
+                $('.birth-error').show();
+                error = true;
+            }
+            else {
+                $('.birth-error').hide();
+            }
+            if (error == false ){
+                $('.add-submit').submit();
+            }
+
+        })
+    });
+    $('.first_name').keyup(function () {
+        $('.name_error').hide();
+    })
+    $('.phone').keyup(function () {
+        $('.phone_error').hide();
+    })
+    $('.date_of_birth').keyup(function () {
+        $('.birth-error').hide();
+    })
+
+    </script>
+
+
+{% endblock %}

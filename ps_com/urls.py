@@ -24,6 +24,7 @@ from ps_com.views import AddPatientDetailsFormView
 from ps_com.views import BillingList
 from ps_com.views import CreateBillFormView
 from ps_com.views import PatientBillDisplayView
+from ps_com.views import PatientEditView
 
 urlpatterns = [
     url(r'^index/$', IndexView.as_view(), name='index'),
@@ -51,6 +52,11 @@ urlpatterns = [
         r'^patient/bill/(?P<pk>\d+)/$',
         PatientBillDisplayView.as_view(),
         name='patient_bill'
+    ),
+    url(
+        r'^patient/(?P<pk>\d+)/edit_patient/$',
+        PatientEditView.as_view(),
+        name='edit_patient'
     ),
 
 ]

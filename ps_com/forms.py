@@ -10,7 +10,7 @@ from django.http import Http404
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'phone', 'address']
 
 
 class PatientDetailForm(forms.ModelForm):

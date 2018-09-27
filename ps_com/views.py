@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic import TemplateView
+from django.views.generic import UpdateView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.http import Http404
@@ -188,3 +189,11 @@ class PatientBillDisplayView(TemplateView):
             'bill': self.get_bill_object()
         })
         return context
+
+
+class PatientEditView(UpdateView):
+    form_class = PatientForm
+    template_name = 'edit_Patient.html'
+    model = Patient
+    success_url = reverse_lazy('patient_list')
+

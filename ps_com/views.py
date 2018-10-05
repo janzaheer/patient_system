@@ -11,6 +11,9 @@ from django.views.generic import UpdateView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.utils import timezone
+from django.db.models import Sum
+
 
 from ps_com.forms import PatientDetailForm
 from ps_com.forms import PatientForm
@@ -21,6 +24,31 @@ from ps_com.models import Billing
 
 class IndexView(TemplateView):
     template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(IndexView, self).get_context_data(**kwargs)
+
+        total_patients = Patient.objects.all().count()
+        patients_today = Patient.objects.filter(
+            created_at__gte=timezone.now().replace(
+                hour=0, minute=0, second=0)
+        )
+        total_bill = Billing.objects.all().count()
+        bill_today = Billing.objects.filter(
+            created_at__gte=timezone.now().replace(
+                hour=0, minute=0, second=0)
+        ).aggregate(bill=Sum('amount'))
+
+
+
+        context.update({
+            'total_patients': total_patients,
+            'today_patients': patients_today,
+            'total_bills': total_bill,
+            'bill_today': bill_today['bill'] or 0,
+        })
+
+        return context
 
 
 class PatientList(TemplateView):

@@ -25,8 +25,10 @@ from ps_com.views import BillingList
 from ps_com.views import CreateBillFormView
 from ps_com.views import PatientBillDisplayView
 from ps_com.views import PatientUpdateView
+from ps_com.views import DashboardView, DoctorFormView, DoctorListView
 
 urlpatterns = [
+    url(r'^$', DashboardView.as_view(), name='dashboard'),
     url(r'^index/$', IndexView.as_view(), name='index'),
     url(r'^patient-list/$', PatientList.as_view(), name='patient_list'),
     url(r'^patient-add/$', PatientFormView.as_view(), name='patient_add'),
@@ -57,6 +59,16 @@ urlpatterns = [
         r'^patient/(?P<pk>\d+)/update/$',
         PatientUpdateView.as_view(),
         name='patient_update'
+    ),
+
+    # Doctor Views
+    url(
+        r'^doctor/add/$', DoctorFormView.as_view(),
+        name='doctor_add'
+    ),
+    url(
+        r'^doctor/list/$', DoctorListView.as_view(),
+        name='doctor_list'
     ),
 
 ]

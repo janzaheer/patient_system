@@ -2,7 +2,7 @@ from django import forms
 
 from ps_com.models import Patient
 from ps_com.models import AppointmentDetails
-from ps_com.models import Billing
+from ps_com.models import Billing, Doctor
 
 from django.http import Http404
 
@@ -10,12 +10,21 @@ from django.http import Http404
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        fields = ['first_name', 'last_name', 'phone', 'address', 'date_of_birth','sex', 'blood_group']
+        fields = [
+            'first_name', 'last_name', 'phone', 'address',
+            'date_of_birth','sex', 'blood_group'
+        ]
 
 
 class PatientDetailForm(forms.ModelForm):
     class Meta:
         model = AppointmentDetails
+        fields = '__all__'
+
+
+class DoctorForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
         fields = '__all__'
 
 

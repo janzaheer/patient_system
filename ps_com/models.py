@@ -31,8 +31,8 @@ class Clinic(models.Model):
 
 
 class ClinicUser(models.Model):
-    clinic = models.ForeignKey(Clinic, related_name='clinic_user')
-    user = models.ForeignKey(User, related_name='user_clinic')
+    clinic = models.OneToOneField(Clinic, related_name='clinic_user')
+    user = models.OneToOneField(User, related_name='user_clinic')
 
     def __unicode__(self):
         return self.clinic.name

@@ -5,18 +5,22 @@ from django.core.urlresolvers import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DeleteView
-from django.views.generic import FormView
+from django.views.generic import FormView, ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
-from ps_com.forms import PatientDetailForm
+from ps_com.forms import PatientDetailForm, DoctorForm
 from ps_com.forms import PatientForm
 from ps_com.forms import BillingForm
-from ps_com.models import Patient
+from ps_com.models import Patient, Doctor
 from ps_com.models import Billing
+
+
+class DashboardView(TemplateView):
+    template_name = 'dashboard.html'
 
 
 class IndexView(TemplateView):
@@ -197,3 +201,32 @@ class PatientUpdateView(UpdateView):
     model = Patient
     success_url = reverse_lazy('patient_list')
 
+
+class DoctorFormView(FormView):
+    form_class = DoctorForm
+    template_name = 'doctor/add.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return super(DoctorFormView, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('dashboard'))
+
+    def form_valid(self, form):
+        form.save()
+        return HttpResponseRedirect(reverse('doctor_list'))
+
+    def form_invalid(self, form):
+        return super(DoctorFormView, self).form_invalid(form)
+
+
+class DoctorListView(ListView):
+    model = Doctor
+    paginate_by = 100
+    template_name = 'doctor/list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return super(DoctorListView, self).dispatch(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('dashboard'))

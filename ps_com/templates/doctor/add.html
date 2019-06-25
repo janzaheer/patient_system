@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <br>
+        <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-primary">Home</button></a>
+        <a href="{% url 'doctor_list' %}"><button type="button" class="btn btn-primary">Doctor List</button></a>
+        <br><br>
+        <div class="content-panel">
+            <h3 class="text-center">Add New Doctor</h3>
+            <div class="panel-body">
+                <form class="form-horizontal add-submit" action="{% url 'doctor_add' %}" method="post" >
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            {% csrf_token %}
+                            <label><strong>Name</strong></label>
+                            <input type="text" class="form-control name" name="name"><br>
+                            <label><strong>Mobile Number</strong></label>
+                            <input type="text"  class="form-control mobile" name="mobile"><br>
+                            <label><strong>Email</strong></label>
+                            <input type="email"  class="form-control email" name="email"><br>
+                            <label><strong>Date OF Birth</strong></label>
+                            <input type="date" class="form-control date_of_birth" name="date_of_birth"><br>
+                            <label><strong>Designation</strong></label>
+                            <input type="text" class="form-control designation" name="designation"><br>
+                        </div>
+                        <div class="col-md-6">
+                            <label><strong>Department</strong></label>
+                            <input type="text" class="form-control department" name="department"><br>
+                            <label><strong>Sex</strong></label>
+                            <select class="form-control sex-option" name="sex">
+                                <option>male</option>
+                                <option>female</option>
+                            </select><br>
+                            <label><strong>Blood Group</strong></label>
+                            <select class="form-control blood-group" name="blood_group">
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select><br>
+                            <label><strong>Address</strong></label>
+                            <textarea class="form-control" name="address" rows="5"></textarea><br>
+                            <input type="hidden" value="{{ request.user.user_clinic.clinic.id }}" name="clinic">
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary" style="width: 100%">Add Patient</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -138,6 +138,6 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
 
 
 try:
-    from .settings_local import *
+    from patient_system.settings_local import *
 except ImportError:
     pass

@@ -5,20 +5,59 @@
         <br>
         <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-primary" style="float: left">Back to Patient List</button></a>
         <br><br><br>
-        <div class="content-panel">
+        <div class="content-panel table-responsive">
             <h3 class="text-center">Patient Appointment Detail</h3>
             <div class="panel-body">
-                <form class="form-horizontal" action="{% url 'add_patient_details' patient_id=patient.patient_id %}" method="post" >
+                <form class="form-horizontal add-form" action="{% url 'add_patient_details' patient_id=patient.patient_id %}" method="post" >
                     <div class="form-group">
                         <div class="col-sm-12">
-                            <input type="text" class="form-control doctor_name" name="doctor_name" placeholder="Doctor Name"><br>
+                            <span class="name_error" style="color: red; display: none">Please Provide Name</span>
+                            <input  type="text" class="form-control doctor_name" name="doctor_name" placeholder="Doctor Name"><br>
+                            <span class="detail-error" style="color: red; display: none">Please Provide Name</span>
                             <textarea class="form-control detail" name="detail" rows="5" placeholder="Please write the patient appointment detail here"></textarea><br>
                             <input type="hidden" name="patient" value="{{ patient.id }}">
-                            <button type="submit" class="btn btn-primary" style="float: right">Add Appointment Detail</button>
+                            <button type="button" class="btn btn-primary" style="float: right">Add Appointment Detail</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+    $('.document').ready(function () {
+        $('.btn-primary').on('click', function () {
+            var error = false;
+            if ($('.doctor_name').val() == "") {
+                $('.name_error').show();
+                error = true;
+            }
+            else {
+                $('.name_error').hide();
+            }
+            var name = jQuery('.detail').val();
+                if (name=="detail" || name == "") {
+                jQuery('.detail-error').show();
+                return false;
+                            }
+            else{
+                $('.detail-error').hide();
+            }
+            if (error == false) {
+                $('.add-submit').submit();
+            }
+
+
+        })
+
+    })
+    $('.doctor_name').keyup(function () {
+        $('.name_error').hide();
+
+    })
+    $('.detail').keyup(function () {
+        $('.detail-error').hide();
+
+    })
+
+    </script>
 {% endblock %}

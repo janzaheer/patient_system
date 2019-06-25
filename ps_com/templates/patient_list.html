@@ -21,6 +21,7 @@
                         <th><i class="fa fa-bullhorn"></i> Patient Name</th>
                         <th class="hidden-phone"><i class="fa fa-question-circle"></i> Patient ID</th>
                         <th><i class="fa fa-bookmark"></i> Phone</th>
+                        <th><i class="fa fa-birthday-cake"></i> Date of Birth</th>
                         <th><i class=" fa fa-edit"></i> Sex</th>
                         <th><i class=" fa fa-edit"></i> Blood Group</th>
                         <th><i class=" fa fa-edit"></i> Created At</th>
@@ -33,10 +34,12 @@
                             <td><a href="#">{{ patient.first_name }} {{ patient.last_name }}</a></td>
                             <td class="hidden-phone">{{ patient.patient_id }}</td>
                             <td>{{ patient.phone }}</td>
+                            <td>{{ patient.date_of_birth  }}</td>
                             <td>{{ patient.sex }}</td>
                             <td>{{ patient.blood_group }}</td>
                             <td>{{ patient.created_at }}</td>
                             <td>
+                                <a href="{% url 'patient_update' pk=patient.id%}"><button class="btn btn-primary btn-xs" style="background-color: #d8bc60; border-color: #d8bc60 " title="Edit Patient"><i class="fa fa-edit"></i></button></a>
                                 <a href="{% url 'add_patient_details' patient_id=patient.patient_id %}"><button class="btn btn-primary btn-xs"><i class="fa fa-plus"></i></button></a>
                                 <a href="{% url 'patient_details' patient_id=patient.patient_id %}"><button class="btn btn-success btn-xs"><i class="fa fa-eye"></i></button></a>
                                 <a href="{% url 'patient_delete' pk=patient.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>

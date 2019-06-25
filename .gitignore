@@ -19,4 +19,8 @@
 .coverage
 
 /patient_system/settings_local.py
+<<<<<<< HEAD
 db.local
+=======
+db.sqlite3
+>>>>>>> 166a56523546d56b2b089d799d20577cd680b7c0

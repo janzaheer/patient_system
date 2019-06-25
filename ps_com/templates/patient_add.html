@@ -8,18 +8,21 @@
         <div class="content-panel">
             <h3 class="text-center">Add New Patient</h3>
             <div class="panel-body">
-                <form class="form-horizontal" action="{% url 'patient_add' %}" method="post" >
+                <form class="form-horizontal add-submit" action="{% url 'patient_add' %}" method="post" >
                     <div class="form-group">
                         <div class="col-sm-12     ">
+                            <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
                             <input type="text" class="form-control first_name" name="first_name" placeholder="First Name"><br>
-                            <input type="text" class="form-control last_name" name="last_name" placeholder="Last Name"><br>
-                            <input type="text" class="form-control phone" name="phone" placeholder="Phone"><br>
+                            <input type="text" class="form-control last_name" name="last_name" placeholder="Last Name(optional) "><br>
+                            <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
+                            <input type="text"  class="form-control phone" name="phone" placeholder="Phone"><br>
+                            <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
                             <input type="date" class="form-control date_of_birth" name="date_of_birth"><br>
-                            <select class="form-control" name="sex">
+                            <select class="form-control sex-option" name="sex">
                                 <option>male</option>
                                 <option>female</option>
                             </select><br>
-                            <select class="form-control" name="blood_group">
+                            <select class="form-control blood-group" name="blood_group">
                                 <option>A+</option>
                                 <option>A-</option>
                                 <option>AB+</option>
@@ -29,11 +32,55 @@
                                 <option>O+</option>
                                 <option>O-</option>
                             </select><br>
-                            <button type="submit" class="btn btn-primary" style="float: right">Add Patient</button>
+                            <button type="button" class="btn btn-primary" style="float: right">Add Patient</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+    $('.document').ready(function () {
+        $('.btn-primary').on ('click', function () {
+                var error = false;
+            if ($('.first_name').val()==""){
+                $('.name_error').show();
+                error = true;
+            }
+            else {
+                $('.name_error').hide()
+            }
+            if ($('.phone').val()==""){
+                $('.phone_error').show();
+                error = true;
+            }
+            else{
+                $('.phone_error').hide();
+            }
+            if ($('.date_of_birth').val()==""){
+                $('.birth-error').show();
+                error = true;
+            }
+            else {
+                $('.birth-error').hide();
+            }
+            if (error == false ){
+                $('.add-submit').submit();
+            }
+
+        })
+    });
+    $('.first_name').keyup(function () {
+        $('.name_error').hide();
+    })
+    $('.phone').keyup(function () {
+        $('.phone_error').hide();
+    })
+    $('.date_of_birth').keyup(function () {
+        $('.birth-error').hide();
+    })
+
+    </script>
+
+
 {% endblock %}

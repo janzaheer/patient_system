@@ -42,6 +42,10 @@ from ps_com.views_appointments import (
     DeleteAppointmentView, AppointmentDetailsView
 )
 
+from ps_com.views_reports_api import (
+    DailySalesAPI, MonthlySalesAPI
+)
+
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='dashboard'),
     url(r'^reports/$', ReportsView.as_view(), name='reports'),
@@ -159,6 +163,16 @@ urlpatterns = [
         r'^doctor/appointment/(?P<pk>\d+)/update/$',
         UpdateAppointmentView.as_view(),
         name='update_doctor_appointment'
+    ),
+
+    # Reports API URLS
+    url(
+        r'^daily/reports/$', DailySalesAPI.as_view(),
+        name='daily_reports'
+    ),
+    url(
+        r'^monthly/reports/$', MonthlySalesAPI.as_view(),
+        name='monthly_reports'
     ),
 
 ]

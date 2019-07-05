@@ -3,10 +3,13 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.views.generic import RedirectView, FormView, TemplateView
 from django.http import HttpResponseRedirect
+from django.utils import timezone
 
 from django.contrib.auth import forms as auth_forms
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+
+from ps_com.models import AppointmentDetails
 
 
 class DashboardView(TemplateView):
@@ -22,6 +25,17 @@ class DashboardView(TemplateView):
 
 class ReportsView(TemplateView):
     template_name = 'reports.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ReportsView, self).get_context_data(**kwargs)
+
+        appointments = AppointmentDetails.objects.filter(
+            appointment_date__icontains=timezone.now().date()
+        )
+        context.update({
+            'appointments': appointments
+        })
+        return context
 
 
 class LoginView(FormView):

@@ -1,28 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.core.urlresolvers import reverse
-from django.core.urlresolvers import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DeleteView
-from django.views.generic import FormView, ListView
-from django.views.generic import TemplateView
-from django.views.generic import UpdateView, RedirectView
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.views.generic import RedirectView, FormView, TemplateView
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
-from django.http import Http404
 
 from django.contrib.auth import forms as auth_forms
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-
-from ps_com.forms import AppointmentForm, DoctorForm
-from ps_com.forms import PatientForm
-from ps_com.forms import BillingForm
-from ps_com.models import Patient, Doctor
-from ps_com.models import Billing, AppointmentDetails
-from django.db import transaction
-
 
 
 class DashboardView(TemplateView):
@@ -37,7 +21,7 @@ class DashboardView(TemplateView):
 
 
 class ReportsView(TemplateView):
-    template_name = 'index.html'
+    template_name = 'reports.html'
 
 
 class LoginView(FormView):

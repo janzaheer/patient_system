@@ -3,8 +3,7 @@
 {% block content %}
     <div class="col-md-12">
         <br>
-        <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-primary">Home</button></a>
-        <a href="{% url 'doctor_list' %}"><button type="button" class="btn btn-primary">Doctor List</button></a>
+        <a href="{% url 'doctor_list' %}"><button type="button" class="btn btn-info btn-lg">Doctor List</button></a>
         <br><br>
         <div class="content-panel">
             <h3 class="text-center">Add New Doctor</h3>
@@ -58,7 +57,7 @@
                             <input type="hidden" value="{{ request.user.user_clinic.clinic.id }}" name="clinic">
                         </div>
                         <div class="col-md-3 pull-right">
-                            <button type="submit" class="btn btn-primary" style="width: 100%">Add Doctor</button>
+                            <button type="submit" class="btn btn-info" style="width: 100%">Add Doctor</button>
                         </div>
                     </div>
                 </form>

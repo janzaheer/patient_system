@@ -1,120 +1,116 @@
 {% extends 'base.html' %}
 {% block content %}
+<style>
+    .txt_size{
+        font-size:25px;
+        margin:15px 0;
+    }
+</style>
     <div class="container">
         <br><br>
         <div class="row">
-
                 <div class="col-lg-4 col-md-6">
                     <a href="{% url 'doctor_list' %}">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
+                                        <br>
                                         <i class="fa fa-user-md fa-5x"></i>
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <div class="huge">Doctors</div>
+                                        <div class="huge txt_size">Doctors</div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <a href="{% url 'patient_list' %}">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-warning bg-danger">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
+                                        <br>
                                         <i class="fa fa-male fa-5x"></i>
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <div class="huge">Patients</div>
+                                        <div class="huge txt_size">Patients</div>
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <a href="{% url 'appointment_list' %}">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-success">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
+                                        <br>
                                         <i class="fa fa-list-ul fa-5x"></i>
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <div class="huge">Appointments</div>
+                                        <div class="huge txt_size">Appointments</div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <a href="#">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-info">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
+                                        <br>
                                         <i class="fa fa-credit-card fa-5x"></i>
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <div class="huge">Receipt</div>
+                                        <div class="huge txt_size">Receipt</div>
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <a href="{% url 'index' %}">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-danger">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
+                                        <br>
                                         <i class="fa fa-bar-chart-o fa-5x"></i>
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <div class="huge">Reports</div>
+                                        <div class="huge txt_size">Reports</div>
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <a href="{% url 'billing_list' %}">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-default">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-12 text-center">
+                                        <br>
                                         <i class="fa fa-file-text-o fa-5x"></i>
                                     </div>
                                     <div class="col-xs-12 text-center">
-                                        <div class="huge">Bills</div>
+                                        <div class="huge txt_size">Bills</div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </a>
                 </div>
-
-
         </div>
     </div>
 {% endblock %}

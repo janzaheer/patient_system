@@ -1,45 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-md-6">
-        <br>
-        <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-primary">Back to Patient List</button></a>
-        <br><br><br>
-        <div class="content-panel table-responsive">
-            <h3 class="text-center">{{patient.patient_id}}||Patient Appointment Detail</h3>
-            <div class="panel-body">
-                <form class="form-horizontal add-form" action="{% url 'patient_appointment_update' pk=object.id %}" method="post" >
-                    <div class="form-group">
-                        {% csrf_token %}
-                        <div class="col-sm-12">
-                            <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
-                            <label><strong>Added Date</strong></label>
-                            <input type="date" class="form-control added_date" name="added_date" value="{{ object.added_date|date:'Y-m-d'}}"><br>
-                            <label><strong>Doctor</strong></label>
-                              <br><select class="form-control" name="doctor_name">
-                               <option value="{{object.doctor.name}}">{{object.doctor.name}}</option>
-                                {% for doctor in doctors %}
-                               <option>{{doctor.name}}</option>
-                                   {% endfor %}
-                             </select><br><br>
-                            <input type="hidden" name="patient" value="{{ patient.id }}">
-                            <label><strong>Procedure</strong></label>
-                            <textarea class="form-control procedure" name="procedure" rows="5">{{ object.procedure}}  </textarea> <br>
-                            <label><strong>Description</strong></label>
-                            <textarea class="form-control description" name="description" rows="5"> {{ object.description}} </textarea><br>
-                            <label><strong>Appointment Date</strong></label>
-                            <input type="date" class="form-control appointment_date" name="appointment_date" value="{{ object.appointment_date|date:'Y-m-d'}}"><br>
-                            <label><strong>Clinical Notes</strong></label>
-                            <textarea class="form-control clinical_notes" name="clinical_notes" rows="5"> {{ object.clinical_notes}} </textarea><br>
-                            <input type="hidden" name="patient" value="{{ patient.id }}">
-                            <button type="button" class="btn btn-primary" style="float: right">Update Appointment</button>
-                        </div>
+<div class="col-md-8">
+    <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-info btn-lg">Patient List</button></a>
+    <br><br><br>
+    <div class="content-panel table-responsive">
+        <h3 class="text-center">{{patient.patient_id}}||Patient Appointment Detail</h3>
+        <div class="panel-body">
+            <form class="form-horizontal add-form" action="{% url 'patient_appointment_update' pk=object.id %}" method="post" >
+                <div class="form-group">
+                    {% csrf_token %}
+                    <div class="col-sm-12 col-md-6">
+                        <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
+                        <label><strong>Added Date</strong></label>
+                        <input type="date" class="form-control added_date" name="added_date" value="{{ object.added_date|date:'Y-m-d'}}">
                     </div>
-                </form>
-            </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label><strong>Doctor</strong></label>
+                        <br>
+                        <select class="form-control" name="doctor_name">
+                            <option value="{{object.doctor.name}}">{{object.doctor.name}}</option>
+                            {% for doctor in doctors %}
+                            <option>{{doctor.name}}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-6">
+                        <input type="hidden" name="patient" value="{{ patient.id }}">
+                        <label><strong>Procedure</strong></label>
+                        <textarea class="form-control procedure" name="procedure" rows="5">{{ object.procedure}}  </textarea>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label><strong>Description</strong></label>
+                        <textarea class="form-control description" name="description" rows="5"> {{ object.description}} </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-12">
+                    <label><strong>Appointment Date</strong></label>
+                    <input type="date" class="form-control appointment_date" name="appointment_date" value="{{ object.appointment_date|date:'Y-m-d'}}"><br>
+                    <label><strong>Clinical Notes</strong></label>
+                    <textarea class="form-control clinical_notes" name="clinical_notes" rows="5"> {{ object.clinical_notes}} </textarea><br>
+                    <input type="hidden" name="patient" value="{{ patient.id }}">
+                    <button type="button" class="btn btn-info" style="float: right">Update Appointment</button>
+                </div>
         </div>
+        </form>
     </div>
-    <script>
+</div>
+</div>
+<script>
     $('.document').ready(function () {
         $('.btn-primary').on('click', function () {
             var error = false;

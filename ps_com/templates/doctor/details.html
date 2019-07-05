@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-12">
+        <br>
+        <a href="{% url 'doctor_list' %}"><button type="button" class="btn btn-primary" style="float: left">Doctor List</button></a>
+        <br><br><br>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Doctor Details
+            </div>
+            <div class="panel-body">
+                <strong>Doctor Name:</strong>   {{ doctor.name|title }}<br>
+                <strong>Doctor ID:</strong>     {{ doctor.doctor_id}} <br>
+                <strong>Phone:</strong>         {{ doctor.mobile }}
+                <strong>DOB:</strong>           {{ doctor.date_of_birth }}<br>
+                <strong>Designation:</strong>   {{ doctor.designation|title }}<br>
+                <strong>Sex:</strong>           {{ doctor.sex|title }}<br>
+                <strong>Blood Group:</strong>   {{ doctor.blood_group }}<br><br>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

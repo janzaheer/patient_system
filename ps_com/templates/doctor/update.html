@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="col-md-12">
+        <div class="content-panel">
+            <h3 class="text-center">Update Doctor</h3>
+            <div class="panel-body">
+                <form class="form-horizontal add-submit" action="{% url 'update' pk=doctor.id %}" method="post" >
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ doctor.doctor_id }}" name="doctor_id">
+                            <label><strong>Name</strong></label>
+                            <input type="text" class="form-control name" name="name" value="{{ doctor.name}}"><br>
+                            <label><strong>Mobile Number</strong></label>
+                            <input type="text"  class="form-control mobile" name="mobile" value="{{ doctor.mobile}}"><br>
+                            <label><strong>Email</strong></label>
+                            <input type="email"  class="form-control email" name="email" value="{{ doctor.email}}"><br>
+                            <label><strong>Date OF Birth</strong></label>
+                            <input type="date" class="form-control date_of_birth" name="date_of_birth" value="{{ doctor.date_of_birth|date:'Y-m-d' }}"><br>
+                            <label><strong>Designation</strong></label>
+                            <input type="text" class="form-control designation" name="designation" value="{{ doctor.designation}}"><br>
+                        </div>
+                        <div class="col-md-6">
+                            <label><strong>Department</strong></label>
+                            <input type="text" class="form-control department" name="department" value="{{ doctor.department}}"><br>
+                            <label><strong>Sex</strong></label>
+                            <select class="form-control sex-option" name="sex" value="{{ doctor.sex}}">
+                                <option>male</option>
+                                <option>female</option>
+                            </select><br>
+                            <label><strong>Blood Group</strong></label>
+                            <select class="form-control blood-group" name="blood_group" value="{{ doctor.blood_group}}">
+                                <option>A+</option>
+                                <option>A-</option>
+                                <option>AB+</option>
+                                <option>AB-</option>
+                                <option>B+</option>
+                                <option>B-</option>
+                                <option>O+</option>
+                                <option>O-</option>
+                            </select><br>
+                            <label><strong>Address</strong></label>
+                            <textarea class="form-control" name="address"rows="5" value="{{ doctor.address}}" >{{ doctor.address}} </textarea><br>
+                            <input type="hidden" value="{{ request.user.user_clinic.clinic.id }}" name="clinic">
+                        </div>
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-primary" style="width: 100%">Update Doctor</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

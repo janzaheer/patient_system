@@ -24,7 +24,17 @@
     <script src="{% static 'js/chart-master/Chart.js' %}"></script>
     <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
 </head>
-
+<style>
+    .home_icon{
+        float:left;
+        color:#fff;
+        margin-top:7px;
+        margin-right:5px;
+    }
+    .home_icon:hover{
+        color:#fff;
+    }
+</style>
 <body>
 
 <section id="container" >
@@ -33,67 +43,19 @@
     *********************************************************************************************************************************************************** -->
     <!--header start-->
     <header class="header black-bg">
-        <div class="sidebar-toggle-box">
-            <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
-        </div>
-        <a href="index.html" class="logo"><b>Patient Information System</b></a>
+        <a href="{% url 'dashboard' %}" class="home_icon"><i class="fa fa-home fa-3x"></i></a>
+        <a href="{% url 'dashboard' %}" class="logo"><b>Patient Information System</b></a>
     </header>
     <!--header end-->
 
-    <!-- **********************************************************************************************************************************************************
-    MAIN SIDEBAR MENU
-    *********************************************************************************************************************************************************** -->
-    <!--sidebar start-->
-    <aside>
-        <div id="sidebar"  class="nav-collapse ">
-            <!-- sidebar menu start-->
-            <ul class="sidebar-menu" id="nav-accordion">
-
-                <p class="centered"><a href="profile.html"><img src="{% static 'img/ui-sam.jpg' %}" class="img-circle" width="60"></a></p>
-                <h5 class="centered">BUITEMS</h5>
-
-                <li class="mt">
-                    <a class="active" href="{% url 'index' %}">
-                        <i class="fa fa-dashboard"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-tasks"></i>
-                          <span>Patients</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="{% url 'patient_add' %}">Patient Add</a></li>
-                          <li><a  href="{% url 'patient_list' %}">Patient List</a></li>
-                      </ul>
-                  </li>
-                <li class="sub-menu">
-                      <a href="javascript:;" >
-                          <i class="fa fa-book"></i>
-                          <span>Billing</span>
-                      </a>
-                      <ul class="sub">
-                          <li><a  href="{% url 'create_bill' %}">Bill Create</a></li>
-                          <li><a  href="{% url 'billing_list' %}">Bill List</a></li>
-                      </ul>
-                  </li>
-            </ul>
-        </div>
-    </aside>
-    <!--sidebar end-->
-
-    <!-- **********************************************************************************************************************************************************
-    MAIN CONTENT
-    *********************************************************************************************************************************************************** -->
     <!--main content start-->
-    <section id="main-content">
+    <!--<section id="main-content">-->
         <section class="wrapper">
             <div class="row">
                 {% block content %}{% endblock %}
             </div>
         </section>
-    </section>
+    <!--</section>-->
 
     <!--main content end-->
     <!--footer start-->

@@ -13,26 +13,35 @@
                     <div class="form-group">
                         <div class="col-md-6">
                             {% csrf_token %}
+                            <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
                             <label><strong>Name</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="text" class="form-control name" name="name"><br>
                             <label><strong>Mobile Number</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="text"  class="form-control mobile" name="mobile"><br>
                             <label><strong>Email</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="email"  class="form-control email" name="email"><br>
                             <label><strong>Date OF Birth</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="date" class="form-control date_of_birth" name="date_of_birth"><br>
                             <label><strong>Designation</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="text" class="form-control designation" name="designation"><br>
                         </div>
                         <div class="col-md-6">
                             <label><strong>Department</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="text" class="form-control department" name="department"><br>
                             <label><strong>Sex</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <select class="form-control sex-option" name="sex">
                                 <option>male</option>
                                 <option>female</option>
                             </select><br>
                             <label><strong>Blood Group</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <select class="form-control blood-group" name="blood_group">
                                 <option>A+</option>
                                 <option>A-</option>
@@ -44,11 +53,12 @@
                                 <option>O-</option>
                             </select><br>
                             <label><strong>Address</strong></label>
+                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <textarea class="form-control" name="address" rows="5"></textarea><br>
                             <input type="hidden" value="{{ request.user.user_clinic.clinic.id }}" name="clinic">
                         </div>
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary" style="width: 100%">Add Patient</button>
+                        <div class="col-md-3 pull-right">
+                            <button type="submit" class="btn btn-primary" style="width: 100%">Add Doctor</button>
                         </div>
                     </div>
                 </form>

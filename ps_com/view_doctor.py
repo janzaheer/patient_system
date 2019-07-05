@@ -15,11 +15,16 @@ from django.views.generic import UpdateView
 from ps_com.models import Doctor, AppointmentDetails, Patient
 
 
-
 class DoctorFormView(FormView):
     form_class = DoctorForm
     template_name = 'doctor/add.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            DoctorFormView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.save()
@@ -34,27 +39,58 @@ class DoctorListView(ListView):
     paginate_by = 100
     template_name = 'doctor/list.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            DoctorListView, self).dispatch(request, *args, **kwargs)
+
 
 class UpdatedoctorView(UpdateView):
     form_class = DoctorForm
     template_name = 'doctor/update.html'
     model = Doctor
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            UpdatedoctorView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.save()
         return HttpResponseRedirect(reverse('doctor_list'))
+
 
 class DeletedoctorView(DeleteView):
     model = Doctor
     success_url = reverse_lazy('doctor_list')
     success_message = "Delete Doctor Successfully"
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            DeletedoctorView, self).dispatch(request, *args, **kwargs)
+
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
+
 class DoctorDetails(TemplateView):
     template_name = 'doctor/details.html'
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            DoctorDetails, self).dispatch(request, *args, **kwargs)
 
     def get_object(self):
         try:
@@ -77,6 +113,13 @@ class DoctorAppoinmentsListView(ListView):
     paginate_by = 200
     template_name = 'doctor/doctor_appointment_list.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            DoctorAppoinmentsListView, self).dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = AppointmentDetails.objects.filter(
             doctor=self.kwargs.get('doctor_id')
@@ -98,12 +141,18 @@ class DoctorAppoinmentsListView(ListView):
         return context
 
 
-
 class UpdateAppointmentView(UpdateView):
     form_class = AppointmentForm
     template_name = 'doctor/update_appointment.html'
     model = AppointmentDetails
 
+    def dispatch(self, request, *args, **kwargs):
+
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            UpdateAppointmentView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         obj = form.save()
@@ -111,17 +160,3 @@ class UpdateAppointmentView(UpdateView):
             reverse('doctor_appointments',
                     kwargs={'doctor_id': obj.doctor.id})
         )
-    #
-    # def get_patient_object(self):
-    #         return Patient.objects.get(
-    #             id=self.kwargs.get('pk'))
-    #
-    # def get_context_data(self, **kwargs):
-    #     context = super(
-    #         UpdateAppointmentView, self).get_context_data(**kwargs)
-    #
-    #     context.update({
-    #         'patient': self.get_patient_object(),
-    #         'doctors': Doctor.objects.all()
-    #     })
-    #     return context

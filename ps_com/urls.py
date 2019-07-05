@@ -16,13 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 
 from ps_com.views import IndexView
-from ps_com.views import AppointmentListView
-from ps_com.views import DeleteAppointmentView
-from ps_com.views import AppointmentDetailsView
 from ps_com.views import BillingList
 from ps_com.views import CreateBillFormView
 from ps_com.views import BillTemplateView
-from ps_com.views import DashboardView
+from ps_com.views import DashboardView, LoginView, LogoutView
 
 
 from ps_com.view_doctor import (
@@ -39,12 +36,15 @@ from ps_com.views_patient import (
 )
 
 from ps_com.views_appointments import (
-    UpdateAppointmentView
+    UpdateAppointmentView, AppointmentListView, AppointmentForm,
+    DeleteAppointmentView, AppointmentDetailsView
 )
 
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='dashboard'),
     url(r'^index/$', IndexView.as_view(), name='index'),
+    url(r'^login/$', LoginView.as_view(), name='login'),
+    url(r'^logout/$', LogoutView.as_view(), name='logout'),
 
     # Patient URLS
     url(r'^patient/list/$', PatientList.as_view(), name='patient_list'),

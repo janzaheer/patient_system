@@ -396,9 +396,7 @@ ul.sidebar-menu li a.active i {
 }
 
 /* MAIN CONTENT CONFIGURATION */
-#main-content {
-    margin-left: 210px;
-}
+
 
 .header, .footer {
     min-height: 60px;
@@ -419,7 +417,7 @@ ul.sidebar-menu li a.active i {
 
 .wrapper {
     display: inline-block;
-    margin-top: 60px;
+    margin-top: 100px;
     padding-left: 15px;
     padding-right: 15px;
     padding-bottom: 15px;

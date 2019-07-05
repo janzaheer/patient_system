@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="col-md-12">
+        <br>
+        <a href="{% url 'appointment_list' %}"><button type="button" class="btn btn-primary" style="float: left">Appointment List</button></a>
+        <br><br><br>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Doctor Details
+            </div>
+            <div class="panel-body">
+                <strong>Added Date:</strong>   {{ appointment.added_date }}<br>
+                <strong>Doctor Name:</strong>     {{ appointment.doctor.name }} <br>
+                <strong>Procedure:</strong>         {{ appointment.procedure }}<br>
+                <strong>Description:</strong>           {{ appointment.description }}<br>
+                <strong>Appointment Date:</strong>   {{ appointment.appointment_date }}<br>
+                <strong>Clinical Bots:</strong>           {{ appointment.clinical_notes }}<br>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -16,50 +16,108 @@ Including another URLconf
 from django.conf.urls import url
 
 from ps_com.views import IndexView
-from ps_com.views import PatientList
-from ps_com.views import PatientFormView
-from ps_com.views import PatientDetails
-from ps_com.views import PatientDeleteView
-from ps_com.views import AddPatientDetailsFormView
+from ps_com.views import AppointmentListView
+from ps_com.views import DeleteAppointmentView
+from ps_com.views import AppointmentDetailsView
 from ps_com.views import BillingList
 from ps_com.views import CreateBillFormView
-from ps_com.views import PatientBillDisplayView
-from ps_com.views import PatientUpdateView
-from ps_com.views import DashboardView, DoctorFormView, DoctorListView
+from ps_com.views import BillTemplateView
+from ps_com.views import DashboardView
+
+
+from ps_com.view_doctor import (
+    DoctorFormView, DoctorListView, DeletedoctorView,
+    UpdatedoctorView, DoctorDetails, DoctorListView,
+    DoctorAppoinmentsListView, UpdateAppointmentView
+)
+
+
+from ps_com.views_patient import (
+    PatientAppoinmentsListView, PatientList, PatientDeleteView,
+    PatientFormView, UpdatePatientView, PatientUpdateView,
+    AddPatientAppointmentFormView, PatientAppointmentUpdateView
+)
+
+from ps_com.views_appointments import (
+    UpdateAppointmentView
+)
 
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='dashboard'),
     url(r'^index/$', IndexView.as_view(), name='index'),
-    url(r'^patient-list/$', PatientList.as_view(), name='patient_list'),
-    url(r'^patient-add/$', PatientFormView.as_view(), name='patient_add'),
+
+    # Patient URLS
+    url(r'^patient/list/$', PatientList.as_view(), name='patient_list'),
+    url(r'^patient/add/$', PatientFormView.as_view(), name='patient_add'),
     url(
-        r'^patient-delete/(?P<pk>\d+)/$',
+        r'^patient/(?P<pk>\d+)/delete/$',
         PatientDeleteView.as_view(),
         name='patient_delete'
     ),
-    url(
-        r'^patient/(?P<patient_id>[a-zA-Z0-9_-]+)/details/$',
-        PatientDetails.as_view(),
-        name='patient_details'
-    ),
-    url(
-        r'^patient/(?P<patient_id>[a-zA-Z0-9_-]+)/details/add/$',
-        AddPatientDetailsFormView.as_view(),
-        name='add_patient_details'
-    ),
 
-    url(r'^billing-list/$', BillingList.as_view(), name='billing_list'),
-    url(r'^create/bill/$', CreateBillFormView.as_view(), name='create_bill'),
-    url(
-        r'^patient/bill/(?P<pk>\d+)/$',
-        PatientBillDisplayView.as_view(),
-        name='patient_bill'
-    ),
     url(
         r'^patient/(?P<pk>\d+)/update/$',
         PatientUpdateView.as_view(),
         name='patient_update'
     ),
+
+    url(
+        r'^patient/(?P<patient_id>\d+)/appointment/add/$',
+        AddPatientAppointmentFormView.as_view(),
+        name='patient_add_appointment'
+    ),
+
+    url(
+        r'^patient/(?P<patient_id>\d+)/appointments/$',
+        PatientAppoinmentsListView.as_view(),
+        name='patient_appointments'
+    ),
+
+    url(
+        r'^patient/appointment/(?P<pk>\d+)/update/$',
+        PatientAppointmentUpdateView.as_view(),
+        name='patient_appointment_update'
+    ),
+
+    # Appointment URLS
+
+    url(r'^appointment/list/$', AppointmentListView.as_view(),
+        name='appointment_list'),
+
+
+
+    url(
+        r'^appointment/delete/(?P<pk>\d+)/$',
+          DeleteAppointmentView.as_view(),
+        name='appointment_delete'
+    ),
+
+    url(
+        r'^appointment/(?P<pk>[a-zA-Z0-9_-]+)/details/$',
+        AppointmentDetailsView.as_view(),
+        name='appointment_details'
+    ),
+    url(
+        r'^appointment/(?P<pk>\d+)/bill/create/$',
+        CreateBillFormView.as_view(),
+        name='create_appointment_bill'
+    ),
+    url(
+        r'^appointment/(?P<pk>\d+)/update/$',
+        UpdateAppointmentView.as_view(),
+            name='update_appointment'
+    ),
+
+    # Bill URLS
+
+    url(r'^billing-list/$', BillingList.as_view(), name='billing_list'),
+    url(r'^create/bill/$', CreateBillFormView.as_view(), name='create_bill'),
+    url(
+        r'^bill/(?P<pk>\d+)/$',
+        BillTemplateView.as_view(),
+        name='bill_view'
+    ),
+
 
     # Doctor Views
     url(
@@ -69,6 +127,36 @@ urlpatterns = [
     url(
         r'^doctor/list/$', DoctorListView.as_view(),
         name='doctor_list'
+    ),
+
+    url(
+        r'^doctor/(?P<pk>\d+)/update/$',
+        UpdatedoctorView.as_view(),
+        name='update'
+    ),
+
+    url(
+        r'^doctor/delete/(?P<pk>\d+)/$',
+        DeletedoctorView.as_view(),
+        name='delete'
+    ),
+
+    url(
+        r'^doctor/(?P<pk>[a-zA-Z0-9_-]+)/details/$',
+        DoctorDetails.as_view(),
+        name='details'
+    ),
+
+    url(
+        r'^doctor/(?P<doctor_id>\d+)/appointments/$',
+        DoctorAppoinmentsListView.as_view(),
+        name='doctor_appointments'
+    ),
+
+    url(
+        r'^doctor/appointment/(?P<pk>\d+)/update/$',
+        UpdateAppointmentView.as_view(),
+            name='update_doctor_appointment'
     ),
 
 ]

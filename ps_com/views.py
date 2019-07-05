@@ -12,12 +12,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 
-from ps_com.forms import PatientDetailForm, DoctorForm
+from ps_com.forms import AppointmentForm, DoctorForm
 from ps_com.forms import PatientForm
 from ps_com.forms import BillingForm
 from ps_com.models import Patient, Doctor
-from ps_com.models import Billing
-
+from ps_com.models import Billing, AppointmentDetails
+from django.db import transaction
 
 class DashboardView(TemplateView):
     template_name = 'dashboard.html'
@@ -27,112 +27,46 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
 
-class PatientList(TemplateView):
-    template_name = 'patient_list.html'
-
-    @staticmethod
-    def get_patients():
-        """
-        returns all patients
-        :return:
-        """
-        return Patient.objects.all().order_by('-created_at')
-
-    def get_context_data(self, **kwargs):
-        context = super(PatientList, self).get_context_data(**kwargs)
-
-        context.update({
-            'patients': self.get_patients()
-        })
-        return context
+class AppointmentListView(ListView):
+    model = AppointmentDetails
+    template_name = 'appointment/appointment_list.html'
+    ordering = '-id'
 
 
-class PatientFormView(FormView):
-    template_name = 'patient_add.html'
-    form_class = PatientForm
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(PatientFormView, self).dispatch(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        patient = form.save()
-        return HttpResponseRedirect(reverse('patient_list'))
-
-    def form_invalid(self, form):
-        return HttpResponseRedirect(reverse('patient_list'))
-
-
-class PatientDeleteView(DeleteView):
-    model = Patient
-    success_url = reverse_lazy('patient_list')
-    success_message = "Delete Patient Successfully"
+class DeleteAppointmentView(DeleteView):
+    model = AppointmentDetails
+    success_url = reverse_lazy('appointment_list')
+    success_message = "Delete Appointment Successfully"
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
 
-class PatientDetails(TemplateView):
-    template_name = 'patient_details.html'
+class AppointmentDetailsView(TemplateView):
+    template_name = 'appointment/appointment_details.html'
 
     def get_object(self):
         try:
-            return Patient.objects.get(
-                patient_id=self.kwargs.get('patient_id'))
-        except Patient.DoesNotExist:
-            raise Http404('Patient Does not Exists!')
+            return AppointmentDetails.objects.get(
+                id=self.kwargs.get('pk'))
+        except AppointmentDetails.DoesNotExist:
+            raise Http404('Appointement Does not Exists!')
 
     def get_context_data(self, **kwargs):
-        context = super(PatientDetails, self).get_context_data(**kwargs)
-        patient = self.get_object()
+        context = super(AppointmentDetailsView, self).get_context_data(**kwargs)
+        appointment = self.get_object()
         context.update({
-            'patient_details': (
-                patient.patient_details.all().order_by('-created_at')),
-            'patient': self.get_object()
-        })
-        return context
-
-
-class AddPatientDetailsFormView(FormView):
-    template_name = 'add_patient_details.html'
-    form_class = PatientDetailForm
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(
-            AddPatientDetailsFormView, self).dispatch(
-            request, *args, **kwargs)
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(reverse('patient_list'))
-    
-    def form_invalid(self, form):
-        return super(AddPatientDetailsFormView, self).form_invalid(form)
-
-    def get_patient_object(self):
-        try:
-            return Patient.objects.get(
-                patient_id=self.kwargs.get('patient_id'))
-        except Patient.DoesNotExist:
-            raise Http404('Patient Does not Exists!')
-
-    def get_context_data(self, **kwargs):
-        context = super(
-            AddPatientDetailsFormView, self).get_context_data(**kwargs)
-
-        context.update({
-            'patient': self.get_patient_object()
+            'appointment': self.get_object()
         })
         return context
 
 
 class BillingList(TemplateView):
-    template_name = 'billing_list.html'
+    template_name = 'bill/billing_list.html'
 
     @staticmethod
     def get_bills():
-        return Billing.objects.all().order_by('-created_at')
+        return Billing.objects.all().order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super(BillingList, self).get_context_data(**kwargs)
@@ -144,40 +78,34 @@ class BillingList(TemplateView):
 
 class CreateBillFormView(FormView):
     form_class = BillingForm
-    template_name = 'create_bill.html'
+    template_name = 'bill/create_bill.html'
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(
             CreateBillFormView, self).dispatch(request, *args, **kwargs)
 
-    def get_form_kwargs(self):
-        kwargs = super(CreateBillFormView, self).get_form_kwargs()
-        if self.request.method in ('POST', 'PUT'):
-            try:
-                patient = Patient.objects.get(
-                    patient_id=self.request.POST.get('patient_id')
-                )
-            except Patient.DoesNotExist:
-                raise Http404(
-                    'Patient %s does not '
-                    'exist' % self.request.POST.get('patient_id')
-                )
-            kwargs.update({
-                'patient': patient.id
-            })
-        return kwargs
-
     def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(reverse('billing_list'))
+        obj = form.save()
+        return HttpResponseRedirect(reverse('bill_view', kwargs={'pk': obj.id}))
 
     def form_invalid(self, form):
         return super(CreateBillFormView, self).form_invalid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateBillFormView, self).get_context_data(**kwargs)
+        try:
+            appointment = AppointmentDetails.objects.get(id=self.kwargs.get('pk'))
+        except:
+            raise Http404('Appointment does not exists!')
+        context.update({
+            'appointment': appointment
+        })
+        return context
 
-class PatientBillDisplayView(TemplateView):
-    template_name = 'bill_display.html'
+
+class BillTemplateView(TemplateView):
+    template_name = 'bill/bill_display.html'
 
     def get_bill_object(self):
         try:
@@ -187,46 +115,65 @@ class PatientBillDisplayView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(
-            PatientBillDisplayView, self).get_context_data(**kwargs)
+            BillTemplateView, self).get_context_data(**kwargs)
 
         context.update({
             'bill': self.get_bill_object()
         })
         return context
 
-
-class PatientUpdateView(UpdateView):
-    form_class = PatientForm
-    template_name = 'patient_update.html'
-    model = Patient
-    success_url = reverse_lazy('patient_list')
-
-
-class DoctorFormView(FormView):
-    form_class = DoctorForm
-    template_name = 'doctor/add.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return super(DoctorFormView, self).dispatch(request, *args, **kwargs)
-        else:
-            return HttpResponseRedirect(reverse('dashboard'))
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(reverse('doctor_list'))
-
-    def form_invalid(self, form):
-        return super(DoctorFormView, self).form_invalid(form)
-
-
-class DoctorListView(ListView):
-    model = Doctor
-    paginate_by = 100
-    template_name = 'doctor/list.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        if self.request.user.is_authenticated:
-            return super(DoctorListView, self).dispatch(request, *args, **kwargs)
-        else:
-            return HttpResponseRedirect(reverse('dashboard'))
+#
+# class DoctorFormView(FormView):
+#     form_class = DoctorForm
+#     template_name = 'doctor/add.html'
+#
+#
+#     def form_valid(self, form):
+#         form.save()
+#         return HttpResponseRedirect(reverse('doctor_list'))
+#
+#     def form_invalid(self, form):
+#         return super(DoctorFormView, self).form_invalid(form)
+#
+#
+# class DoctorListView(ListView):
+#     model = Doctor
+#     paginate_by = 100
+#     template_name = 'doctor/list.html'
+#
+#
+# class UpdatedoctorView(UpdateView):
+#     form_class = DoctorForm
+#     template_name = 'doctor/update.html'
+#     model = Doctor
+#
+#     def form_valid(self, form):
+#         obj = form.save(commit=False)
+#         obj.save()
+#         return HttpResponseRedirect(reverse('doctor_list'))
+#
+# class DeletedoctorView(DeleteView):
+#     model = Doctor
+#     success_url = reverse_lazy('doctor_list')
+#     success_message = "Delete Doctor Successfully"
+#
+#     def get(self, request, *args, **kwargs):
+#         return self.post(request, *args, **kwargs)
+#
+# class DoctorDetails(TemplateView):
+#     template_name = 'doctor/details.html'
+#
+#     def get_object(self):
+#         try:
+#             return Doctor.objects.get(
+#                 id=self.kwargs.get('pk'))
+#         except Doctor.DoesNotExist:
+#             raise Http404('Doctor Does not Exists!')
+#
+#     def get_context_data(self, **kwargs):
+#         context = super(DoctorDetails, self).get_context_data(**kwargs)
+#         doctor = self.get_object()
+#         context.update({
+#             'doctor': self.get_object()
+#         })
+#         return context

@@ -8,20 +8,28 @@
         <div class="content-panel">
             <h3 class="text-center">Add New Patient</h3>
             <div class="panel-body">
-                <form class="form-horizontal add-submit" action="{% url 'patient_add' %}" method="post" >
+                <form class="form-horizontal add-submit" action="{% url 'patient_add' %}" method="post" autocomplete="off" >
                     <div class="form-group">
                         <div class="col-sm-12     ">
                             <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
+                            <label><strong>First Name</strong></label>
                             <input type="text" class="form-control first_name" name="first_name" placeholder="First Name"><br>
+                            <label><strong>Last Name</strong></label>
                             <input type="text" class="form-control last_name" name="last_name" placeholder="Last Name(optional) "><br>
                             <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
+                            <label><strong>Cnic</strong></label>
+                            <input type="text" class="form-control cnic" name="cnic" placeholder="Cnic "><br>
+                            <label><strong>Phone</strong></label>
                             <input type="text"  class="form-control phone" name="phone" placeholder="Phone"><br>
                             <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
+                            <label><strong>D.O.B</strong></label>
                             <input type="date" class="form-control date_of_birth" name="date_of_birth"><br>
+                            <label><strong>Sex</strong></label>
                             <select class="form-control sex-option" name="sex">
                                 <option>male</option>
                                 <option>female</option>
                             </select><br>
+                            <label><strong>Blood Group</strong></label>
                             <select class="form-control blood-group" name="blood_group">
                                 <option>A+</option>
                                 <option>A-</option>
@@ -32,6 +40,7 @@
                                 <option>O+</option>
                                 <option>O-</option>
                             </select><br>
+                            <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
                             <button type="button" class="btn btn-primary" style="float: right">Add Patient</button>
                         </div>
                     </div>

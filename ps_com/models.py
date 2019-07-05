@@ -129,9 +129,8 @@ class Patient(models.Model):
     phone = models.CharField(max_length=13, blank=True, null=True)
     address = models.TextField(max_length=512, blank=True, null=True)
 
-    picture = models.ImageField(
-        upload_to='images/profile/picture/', max_length=1024, blank=True
-    )
+    cnic = models.CharField(max_length=20, blank=True, null=True)
+
     date_of_birth = models.DateField(blank=True, null=True)
     sex = models.CharField(
         max_length=10, choices=USER_SEX, blank=True, null=True
@@ -145,12 +144,23 @@ class Patient(models.Model):
 
 
 class AppointmentDetails(models.Model):
+
+    STATUS_OPEN = "Open"
+    STATUS_CANCELED = "Canceled"
+
+    STATUSES = (
+        (STATUS_OPEN, "Open"),
+        (STATUS_CANCELED, "Canceled"),
+    )
+
     clinic = models.ForeignKey(
         Clinic, related_name='appointment_clinic', blank=True, null=True
     )
     added_date = models.DateField(default=timezone.now, blank=True, null=True)
     appointment_id = models.CharField(max_length=7, blank=True, null=True)
-    patient = models.ForeignKey(Patient, related_name='patient_details')
+    patient = models.ForeignKey(
+        Patient, related_name='patient_details', blank=True, null=True
+    )
     doctor = models.ForeignKey(
         Doctor, related_name='doctor_appointment', blank=True, null=True
     )
@@ -158,11 +168,25 @@ class AppointmentDetails(models.Model):
     description = models.TextField(max_length=1000, blank=True, null=True)
     appointment_date = models.DateField()
     clinical_notes = models.TextField(max_length=512, blank=True, null=True)
+    status = models.CharField(
+        choices=STATUSES, default=STATUS_OPEN, blank=True, null=True, max_length=200
+    )
 
     def __unicode__(self):
         return '%s %s' % (
             self.patient.first_name.title(), self.patient.last_name.title()
-        )
+        )  if self.patient else ''
+
+    def has_bill(self):
+        bill = self.appointment_bill.all()
+        if bill.exists():
+            return True
+        else:
+            return False
+
+    def appointment_bill_id(self):
+        latest_bill = self.appointment_bill.all().latest('id')
+        return latest_bill.id
 
 
 class Billing(models.Model):
@@ -173,7 +197,10 @@ class Billing(models.Model):
     billing_date = models.DateField(
         default=timezone.now, blank=True, null=True
     )
-    appointment = models.ForeignKey(AppointmentDetails, blank=True, null=True)
+    appointment = models.ForeignKey(
+        AppointmentDetails, related_name="appointment_bill",
+        blank=True, null=True
+    )
     receipt_no = models.CharField(max_length=7, blank=True, null=True)
     amount = models.DecimalField(
         max_digits=8, decimal_places=2, default=0
@@ -183,10 +210,7 @@ class Billing(models.Model):
     )
 
     def __unicode__(self):
-        return '%s %s' % (
-            self.appointment.patient.first_name.title(),
-            self.appointment.patient.last_name.title()
-        )
+        return self.receipt_no
 
     @property
     def paid_amount(self):
@@ -194,7 +218,7 @@ class Billing(models.Model):
 
 
 def create_save_patient_id(sender, instance, created, **kwargs):
-    if created and not instance.patient_id:
+    if not instance.patient_id:
         while True:
             random_code = random.randint(1000000, 9999999)
             if not Patient.objects.filter(patient_id=random_code).exists():
@@ -205,7 +229,7 @@ def create_save_patient_id(sender, instance, created, **kwargs):
 
 
 def create_save_receipt_no(sender, instance, created, **kwargs):
-    if created and not instance.receipt_no:
+    if not instance.receipt_no:
         while True:
             random_code = random.randint(1000000, 9999999)
             if not Patient.objects.filter(patient_id=random_code).exists():
@@ -216,7 +240,7 @@ def create_save_receipt_no(sender, instance, created, **kwargs):
 
 
 def create_save_doctor_id(sender, instance, created, **kwargs):
-    if created and not instance.doctor_id:
+    if not instance.doctor_id:
         while True:
             random_code = random.randint(1000000, 9999999)
             if not Patient.objects.filter(
@@ -228,11 +252,11 @@ def create_save_doctor_id(sender, instance, created, **kwargs):
 
 
 def create_save_appointment_id(sender, instance, created, **kwargs):
-    if created and not instance.appointment_id:
+    if not instance.appointment_id:
         while True:
             random_code = random.randint(1000000, 9999999)
-            if not Patient.objects.filter(
-                    patient_id=random_code).exists():
+            if not AppointmentDetails.objects.filter(
+                    appointment_id=random_code).exists():
                 break
 
         instance.appointment_id = random_code

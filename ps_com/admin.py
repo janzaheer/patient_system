@@ -31,43 +31,39 @@ class DoctorAdmin(admin.ModelAdmin):
 
 class PatientAdmin(admin.ModelAdmin):
     list_display = (
-        '__unicode__', 'patient_id', 'clinic', 'phone', 'sex', 'blood_group',
+        '__unicode__', 'patient_id', 'clinic', 'cnic', 'phone', 'sex', 'blood_group',
     )
-    search_fields = ('patient_id', 'first_name', 'last_name', 'phone')
+    search_fields = ('patient_id', 'first_name', 'last_name', 'phone', 'cnic')
 
 
 class AppointmentDetailsAdmin(admin.ModelAdmin):
     list_display = (
-        '__unicode__', 'appointment_id', 'doctor', 'clinic', 'appointment_date'
+        '__unicode__', 'appointment_id', 'doctor', 'clinic', 'status', 'appointment_date'
     )
     raw_id_fields = ('patient', 'doctor',)
 
     @staticmethod
     def patient_name(obj):
-        return '%s %s' % (obj.patient.first_name, obj.patient.last_name)
+        return '%s %s' % (obj.patient.first_name, obj.patient.last_name) if obj.patient else ''
 
     @staticmethod
     def patient_phone(obj):
-        return '%s' % obj.patient.phone
+        return '%s' % obj.patient.phone if obj.patient else ''
 
     @staticmethod
     def doctor(obj):
-        return obj.doctor.name
+        return obj.doctor.name if obj.doctor else ''
 
 
 class BillingAdmin(admin.ModelAdmin):
     list_display = (
-        '__unicode__', 'doctor', 'appointment_id', 'clinic', 'discount',
+        '__unicode__', 'appointment_id', 'clinic', 'discount',
         'amount', 'total', 'billing_date'
     )
 
     @staticmethod
     def appointment_id(obj):
-        return obj.appointment.appointment_id
-
-    @staticmethod
-    def doctor(obj):
-        return obj.apointment.doctor.name
+        return obj.appointment.appointment_id if obj.appointment else ''
 
     @staticmethod
     def total(obj):

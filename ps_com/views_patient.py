@@ -15,6 +15,13 @@ from ps_com.forms import PatientForm, AppointmentForm
 class PatientList(TemplateView):
     template_name = 'patient/patient_list.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            PatientList, self).dispatch(request, *args, **kwargs)
+
     @staticmethod
     def get_patients():
         """
@@ -36,6 +43,13 @@ class PatientFormView(FormView):
     template_name = 'patient/patient_add.html'
     form_class = PatientForm
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            PatientFormView, self).dispatch(request, *args, **kwargs)
+
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super(PatientFormView, self).dispatch(request, *args, **kwargs)
@@ -46,18 +60,26 @@ class PatientFormView(FormView):
 
     def form_invalid(self, form):
         print form.errors
-        print 'coming here -------------------------'
         return HttpResponseRedirect(reverse('patient_list'))
+
 
 class UpdatePatientView(UpdateView):
     form_class = PatientForm
     template_name = 'patient/patient_update.html'
     model = Patient
 
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            UpdatePatientView, self).dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.save()
         return HttpResponseRedirect(reverse('patient_list'))
+
 
 class PatientUpdateView(UpdateView):
     form_class = PatientForm
@@ -65,11 +87,27 @@ class PatientUpdateView(UpdateView):
     model = Patient
     success_url = reverse_lazy('patient_list')
 
+    def dispatch(self, request, *args, **kwargs):
+
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            PatientUpdateView, self).dispatch(request, *args, **kwargs)
+
 
 class PatientDeleteView(DeleteView):
     model = Patient
     success_url = reverse_lazy('patient_list')
     success_message = "Delete Patient Successfully"
+
+    def dispatch(self, request, *args, **kwargs):
+
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            PatientDeleteView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
@@ -81,6 +119,9 @@ class AddPatientAppointmentFormView(FormView):
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
         return super(
             AddPatientAppointmentFormView, self).dispatch(
             request, *args, **kwargs)
@@ -120,6 +161,15 @@ class PatientAppoinmentsListView(ListView):
     paginate_by = 200
     template_name = 'patient/patient_appointment_list.html'
 
+    def dispatch(self, request, *args, **kwargs):
+
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            PatientAppoinmentsListView, self).dispatch(
+            request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = AppointmentDetails.objects.filter(
             patient=self.kwargs.get('patient_id')
@@ -146,6 +196,14 @@ class PatientAppointmentUpdateView(UpdateView):
     template_name = 'patient/patient_appointment_update.html'
     model = AppointmentDetails
 
+    def dispatch(self, request, *args, **kwargs):
+
+        if not self.request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('login'))
+
+        return super(
+            PatientAppointmentUpdateView, self).dispatch(
+            request, *args, **kwargs)
 
     def form_valid(self, form):
         obj = form.save()

@@ -20,10 +20,10 @@ $.get('/daily/reports/', function(result, status){
             type: 'area'
         },
         title: {
-            text: 'Daily Sales Weekly'
+            text: 'Daily Reports'
         },
         subtitle: {
-            text: 'Inventory'
+            text: ''
         },
         xAxis: {
             categories: sales_date.reverse(),
@@ -59,7 +59,7 @@ $.get('/daily/reports/', function(result, status){
         },
 
         series: [{
-            name: 'Sales',
+            name: 'Reports',
             data: total.reverse()
         }]
     });
@@ -86,10 +86,10 @@ $.get('/monthly/reports/', function (result, status) {
             type: 'area'
         },
         title: {
-            text: 'Monthly Sales Graph'
+            text: 'Monthly Reports'
         },
         subtitle: {
-            text: 'Inventory'
+            text: ''
         },
         xAxis: {
             categories: day.reverse(),
@@ -124,7 +124,7 @@ $.get('/monthly/reports/', function (result, status) {
             }
         },
         series: [{
-            name: 'sales',
+            name: 'Reports',
             data: total.reverse()
         }]
     });

@@ -3,12 +3,12 @@
 {% block content %}
     <div class="col-md-6">
         <br>
-        <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-primary">Patients</button></a>
+        <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-info btn-lg">Patients List</button></a>
         <br><br><br>
         <div class="content-panel table-responsive">
             <h3 class="text-center">{{patient.first_name|title }} {{ patient.last_name|title }} | <small>New Appoinment</small></h3>
             <div class="panel-body">
-                <form class="form-horizontal add-form" action="{% url 'patient_add_appointment' patient_id=patient.id %}" method="post" >
+                <form class="form-horizontal add-form" action="{% url 'patient_add_appointment' patient_id=patient.id %}" method="post" autocomplete="off">
                     <div class="form-group">
                         <div class="col-sm-12">
                             <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
@@ -24,7 +24,7 @@
                             <input type="hidden" name="patient" value="{{ patient.id }}">
                             <label><strong>Procedure</strong></label>
                             <input type="text" class="form-control procedure" name="procedure" rows="5" placeholder="Please write the procedure here"><br>
-                            <button type="button" class="btn btn-primary" style="float: right">Add Appointment Detail</button>
+                            <button type="button" class="btn btn-info add_appoint" style="float: right">Add Appointment </button>
                         </div>
                     </div>
                 </form>
@@ -33,7 +33,7 @@
     </div>
     <script>
     $('.document').ready(function () {
-        $('.btn-primary').on('click', function () {
+        $('.add_appoint').on('click', function () {
             var error = false;
             if ($('.doctor_name').val() == "") {
                 $('.name_error').show();

@@ -1,53 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-md-12">
-            <br>
-            <a href="{% url 'dashboard' %}"><button type="button" class="btn btn-primary">Home</button></a>
-            <a href="{% url 'create_bill' %}"><button type="button" class="btn btn-primary" >Create New Bill</button></a>
-        <br><br><br>
-            <div class="content-panel">
-                <table class="table table-striped table-advance table-hover bill-table table-bordered">
-                    <h2 class="text-center">Billing List</h2>
-                    <div class="input-group custom-search-form col-md-4" style="left: 5px">
-                        <input type="text" class="form-control search-bill" placeholder="Search...">
-                        <span class="input-group-btn">
+<div class="col-md-12">
+    <!--            <br>-->
+    <!--            <a href="{% url 'create_bill' %}"><button type="button" class="btn btn-info btn-lg" >Create New Bill</button></a>-->
+    <!--        <br><br><br>-->
+    <div class="content-panel">
+        <table class="table table-striped table-advance table-hover bill-table table-bordered">
+            <h2 class="text-center">Billing List</h2>
+            <div class="input-group custom-search-form col-md-4" style="left: 5px">
+                <input type="text" class="form-control search-bill" placeholder="Search...">
+                <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
-                    </div>
-                    <hr>
-                    <thead>
-                    <tr>
-                        <th><i class=" fa fa-edit"></i> Receipt No</th>
-                        <th><i class="fa fa-bullhorn"></i> Patient Name</th>
-                        <th><i class="fa fa-bullhorn"></i> Doctor</th>
-                        <th><i class="fa fa-bookmark"></i> Appointmentr</th>
-                        <th><i class=" fa fa-edit"></i> Amount</th>
-                        <th><i class=" fa fa-edit"></i> Paid Amount</th>
-                        <th><i class=" fa fa-edit"></i> Discount</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody class="bill-table-body">
-                    {% for bill in bills %}
-                        <tr>
-                            <td><a href="#">{{ bill.receipt_no }}</a></td>
-                            <td>{{ bill.appointment.patient.first_name }} {{ bill.appointment.patient.last_name }}</td>
-                            <td>{{ bill.appointment.doctor.name }}</td>
-                            <td>{{ bill.appointment_id}}</td>
-                            <td>{{ bill.amount }}</td>
-                            <td>{{ bill.paid_amount }}</td>
-                            <td>{{ bill.discount }}</td>
-                            <td>
-                                <a href="{% url 'bill_view' pk=bill.id %}"><button class="btn btn-success btn-xs"><i class="fa fa-eye"></i></button></a>
-                                <a href="#"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
             </div>
-        </div>
+            <hr>
+            <thead>
+            <tr>
+                <th class="text-center"><i class=" fa fa-edit"></i> Receipt No</th>
+                <th class="text-center"><i class="fa fa-bullhorn"></i> Patient Name</th>
+                <th class="text-center"><i class="fa fa-bullhorn"></i> Doctor</th>
+                <th class="text-center"><i class="fa fa-bookmark"></i> Appointmentr</th>
+                <th class="text-center"><i class=" fa fa-edit"></i> Amount</th>
+                <th class="text-center"><i class=" fa fa-edit"></i> Paid Amount</th>
+                <th class="text-center"><i class=" fa fa-edit"></i> Discount</th>
+                <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody class="bill-table-body text-center">
+            {% for bill in bills %}
+            <tr>
+                <td><a href="#">{{ bill.receipt_no }}</a></td>
+                <td>{{ bill.appointment.patient.first_name }} {{ bill.appointment.patient.last_name }}</td>
+                <td>{{ bill.appointment.doctor.name }}</td>
+                <td>{{ bill.appointment_id}}</td>
+                <td>{{ bill.amount }}</td>
+                <td>{{ bill.paid_amount }}</td>
+                <td>{{ bill.discount }}</td>
+                <td>
+                    <a href="{% url 'bill_view' pk=bill.id %}"><button class="btn btn-success btn-md"><i class="fa fa-eye"></i></button></a>
+                    <a href="#"><button class="btn btn-danger btn-md"><i class="fa fa-trash-o "></i></button></a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

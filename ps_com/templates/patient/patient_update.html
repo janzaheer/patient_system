@@ -1,57 +1,64 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-md-6">
-
-        <div class="content-panel">
-            <h3 class="text-center">Update Patient</h3>
-            <div class="panel-body">
-                <form class="form-horizontal add-submit" action="{% url 'patient_update' pk=patient.id %}" method="post" >
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div class="col-sm-12     ">
-                            <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
-                            <label><strong>First Name</strong></label>
-                            <input type="text" class="form-control first_name" name="first_name"  value="{{ patient.first_name}}"><br>
-                            <label><strong>Last Name</strong></label>
-                            <input type="text" class="form-control last_name" name="last_name"  value="{{ patient.last_name}}"><br>
-                            <label><strong>Patient ID</strong></label>
-                            <input type="text" class="form-control patient_id" name="patient_id"  value="{{ object.patient_id}}" readonly><br>
-                            <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
-                            <label><strong>Phone</strong></label>
-                            <input type="text"  class="form-control phone" name="phone"  value="{{ patient.phone}}"><br>
-                            <label><strong>Cnic</strong></label>
-                            <input type="text" class="form-control cnic" name="cnic" value="{{ patient.cnic }}"><br>
-                            <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
-                            <label><strong>D.O.B</strong></label>
-                            <input type="date" class="form-control date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth|date:'Y-m-d' }}" ><br>
-                            <label><strong>Sex</strong></label>
-                            <select class="form-control sex-option" name="sex"  value="{{ patient.date_of_birth|date:'Y-m-d'}}">
-                                <option>male</option>
-                                <option>female</option>
-                            </select><br>
-                            <label><strong>Blood Group</strong></label>
-                            <select class="form-control blood-group" name="blood_group"  value="{{ patient.blood_group}}">
-                                <option>A+</option>
-                                <option>A-</option>
-                                <option>AB+</option>
-                                <option>AB-</option>
-                                <option>B+</option>
-                                <option>B-</option>
-                                <option>O+</option>
-                                <option>O-</option>
-                            </select><br>
-                            <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
-                            <button type="button" class="btn btn-primary" style="float: right">Update Patient</button>
-                        </div>
+<div class="col-md-6">
+    <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Patient List</button></a>
+    <br><br><br>
+    <div class="content-panel">
+        <h3 class="text-center">Update Patient</h3>
+        <div class="panel-body">
+            <form class="form-horizontal add-submit" action="{% url 'patient_update' pk=patient.id %}" method="post" autocomplete="off">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="col-sm-12     ">
+                        <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
+                        <label><strong>First Name</strong></label>
+                        <input type="text" class="form-control first_name" name="first_name"  value="{{ patient.first_name}}"><br>
+                        <label><strong>Last Name</strong></label>
+                        <input type="text" class="form-control last_name" name="last_name"  value="{{ patient.last_name}}"><br>
+                        <label><strong>Patient ID</strong></label>
+                        <input type="text" class="form-control patient_id" name="patient_id"  value="{{ object.patient_id}}" readonly><br>
+                        <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
+                        <label><strong>Phone</strong></label>
+                        <input type="text"  class="form-control phone" name="phone"  value="{{ patient.phone}}"><br>
+                        <label><strong>Cnic</strong></label>
+                        <input type="text" class="form-control cnic" name="cnic" value="{{ patient.cnic }}"><br>
+                        <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
+                        <label><strong>D.O.B</strong></label>
+                        <input type="date" class="form-control date_of_birth" name="date_of_birth" value="{{ patient.date_of_birth|date:'Y-m-d' }}" >
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-6">
+                        <label><strong>Sex</strong></label>
+                        <select class="form-control sex-option" name="sex"  value="{{ patient.date_of_birth|date:'Y-m-d'}}">
+                            <option>male</option>
+                            <option>female</option>
+                        </select><br>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <label><strong>Blood Group</strong></label>
+                        <select class="form-control blood-group" name="blood_group"  value="{{ patient.blood_group}}">
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                        </select><br>
+                        <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
+                        <button type="button" class="btn btn-info update" style="float: right">Update Patient</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <script>
+</div>
+<script>
     $('.document').ready(function () {
-        $('.btn-primary').on ('click', function () {
+        $('.update').on ('click', function () {
                 var error = false;
             if ($('.first_name').val()==""){
                 $('.name_error').show();

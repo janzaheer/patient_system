@@ -1,31 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="col-md-6">
-        <br>
-        <a href="{% url 'billing_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Back to Bill List</button></a>
-        <br><br><br>
-        <div class="content-panel">
-            <h3 class="text-center">Create New Bill</h3>
-            <div class="panel-body">
-                <form class="form-horizontal add-form" action="{% url 'create_appointment_bill' pk=appointment.id %}" method="post" autocomplete="off">
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <input type="hidden" class="form-control" name="appointment" value="{{ appointment.id }}"><br>
-                            <label><strong>Amount</strong></label>
-                            <span class="amount-error" style="color: red; display: none">Please Add ammont</span>
-                            <input type="number" class="form-control amount" name="amount" placeholder="Amount"><br>
-                            <label><strong>Discount</strong></label>
-                            <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control discount" name="discount" placeholder="discount"><br>
-                            <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
-                            <button type="button" class="btn btn-info create" style="float: right">Add Bill</button>
-                        </div>
+<div class="col-md-6">
+    <br>
+    <a href="{% url 'billing_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Back to Bill List</button></a>
+    <br><br><br>
+    <div class="content-panel">
+        <h3 class="text-center">Create New Bill</h3>
+        <div class="panel-body">
+            <form class="form-horizontal add-form" action="{% url 'create_appointment_bill' pk=appointment.id %}" method="post" autocomplete="off">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="hidden" class="form-control" name="appointment" value="{{ appointment.id }}"><br>
+                        <label><strong>Amount</strong></label>
+                        <span class="amount-error" style="color: red; display: none">Please Add ammont</span>
+                        <input type="number" class="form-control amount" name="amount" placeholder="Amount"><br>
+                        <label><strong>Discount</strong></label>
+                        <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control discount" name="discount" placeholder="discount"><br>
+                        <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
+                        <button type="button" class="btn btn-info create" style="float: right">Add Bill</button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 
-    <script>
+<script>
     $('.document').ready(function () {
         $('.create').on('click',function () {
                 var error = false;

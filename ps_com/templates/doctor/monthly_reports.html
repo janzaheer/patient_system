@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container">
     <div class="row mt">
-        <h2 class="text-center">{{ doctor.name|title }} | <small>Reports</small></h2>
+        <div class="col-md-12 col-sm-12 mb">
+            <div class="content-panel">
+                <h2 class="text-center">{{ doctor.name|title }} | <small>Reports</small></h2>
+            </div>
+        </div>
         <div class="col-md-6 col-sm-6 mb">
             <div class="content-panel" style="height:570px; overflow: auto;">
                 <h4 class="text-center"><strong>Monthly Reports</strong></h4><br>
@@ -60,5 +65,6 @@
                 </table>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}

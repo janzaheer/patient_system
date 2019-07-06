@@ -7,67 +7,72 @@
         font-size:16px;
     }
 </style>
-    <div class="col-md-6">
-        <br>
-        <a href="{% url 'billing_list' %}"><button type="button" class="btn btn-primary" style="float: left">Billing List</button></a>
-        <button class="btn btn-primary print-receipt" style="float: right" onclick="PrintDetails('printablediv')">Print Receipt</button>
-        <br><br><br>
-        <div class="content-panel" id="printablediv">
-            <div class="text-center">
-                <h1>Receipt</h1>
-                <h4>Clinic Al-shafa</h4>
-                <p>Address : Zarghoon Road Quetta</p>
-                <p>Contact No : 03451197160</p>
-                <hr>
-            </div>
-            <div class="col-md-12">
-                <label class="pull-right">Recept No : 12345</label>
-                <label class="pull-left">Bill Date : 12/12/1990</label>
-                <br>
-                <br>
-                <label>Doctor : {{bill.appointment.doctor.name|title}}</label>
-                <br>
-                <label>Patient Name : {{ bill.appointment.patient.first_name|title }} {{ bill.appointment.patient.last_name|title }}</label>
-                <br>
-                <label>Patient Id : {{ bill.appointment.patient.patient_id }}</label>
-                <br>
-                <label>Patient Phone : {{ bill.appointment.patient.phone }}</label>
-                <br>
+<div class="col-md-6 col-md-offset-3">
+    <a href="{% url 'billing_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Billing List</button></a>
+    <button class="btn btn-info btn-lg print-receipt" style="float: right" onclick="PrintDetails('printablediv')">Print Receipt</button>
+    <br><br><br>
+    <div class="content-panel" id="printablediv">
+        <div class="text-center">
+            <h1>Receipt</h1>
+            <h4>Clinic Al-shafa</h4>
+            <p>Address : Zarghoon Road Quetta</p>
+            <p>Contact No : 03451197160</p>
+            <hr>
+        </div>
+        <div class="col-md-12">
+            <label class="pull-right">Recept No : 12345</label>
+            <label class="pull-left">Bill Date : 12/12/1990</label>
+            <br>
+            <br>
+            <label>Doctor : {{bill.appointment.doctor.name|title}}</label>
+            <br>
+            <label>Patient Name : {{ bill.appointment.patient.first_name|title }} {{ bill.appointment.patient.last_name|title }}</label>
+            <br>
+            <label>Patient Id : {{ bill.appointment.patient.patient_id }}</label>
+            <br>
+            <label>Patient Phone : {{ bill.appointment.patient.phone }}</label>
+            <br>
 
-            </div>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th colspan="4" class="text-center"></th>
-                    <th colspan="1" class="text-center"><i class=" fa fa-edit"></i> Amount</th>
-                </tr>
-                </thead>
-                <tbody class="text-center">
-                <tr>
-                    <td colspan="4"></td>
-                    <td colspan="1">Rs. {{ bill.amount|floatformat:-2 }} </td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td colspan="4"><strong>Sub Total:</strong></td>
-                    <td><strong>Rs. {{ bill.amount|floatformat:-2 }}</strong></td>
-                </tr>
-                <tr>
-                    <td colspan="4"><strong>Discount: </strong></td>
-                    <td><strong>Rs. {{ bill.discount|floatformat:-2 }}</strong></td>
-                </tr>
-                <tr>
-                    <td colspan="4"><h4><strong>Total: </strong></h4></td>
-                    <td class="text-danger"><h4><strong>Rs. {{ bill.paid_amount|floatformat:-2 }}</strong></h4></td>
-                </tr>
-                </tbody>
-            </table>
+        </div>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th colspan="4" class="text-center"></th>
+                <th colspan="1" class="text-center"><i class=" fa fa-edit"></i> Amount</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr>
+                <td colspan="4"></td>
+                <td colspan="1">Rs. {{ bill.amount|floatformat:-2 }} </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td>&nbsp</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Sub Total:</strong></td>
+                <td><strong>Rs. {{ bill.amount|floatformat:-2 }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Discount: </strong></td>
+                <td><strong>Rs. {{ bill.discount|floatformat:-2 }}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="4"><h4><strong>Total: </strong></h4></td>
+                <td class="text-danger"><h4><strong>Rs. {{ bill.paid_amount|floatformat:-2 }}</strong></h4></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="col-md-12 content-panel">
+            <h3 class="text-center">thank You</h3>
+            <p class="text-center">Software Developed by partum-Solutions</p>
+            <label class="pull-right">www.partumsolutions.com</label>
+            <label class="pull-left">Phone: 0812-821849</label>
         </div>
     </div>
-    <script language="javascript" type="text/javascript">
+</div>
+<script language="javascript" type="text/javascript">
         function PrintDetails(divName){
              var printContents = document.getElementById(divName).innerHTML;
              var originalContents = document.body.innerHTML;

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-5 col-sm-5 mb">
+        <div class="col-md-4 col-sm-4 mb">
             <div class="content-panel" style="height:400px; overflow: auto;">
                 <h4 class="text-center"><strong>Todays Appointment</strong></h4><br>
                 <table class="table table-striped table-advance table-hover appointment_table table-bordered">
@@ -26,11 +26,6 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div class="row ">
-        <div class="col-md-8 col-sm-8 mb">
-            <div id="daily_graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-        </div>
         <div class="col-md-4 col-sm-4 mb">
             <div class="content-panel" style="height:400px; overflow: auto;">
                 <h4 class="text-center"><strong>Daily Reports</strong></h4><br>
@@ -48,11 +43,6 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div class="row mt">
-        <div class="col-md-8 col-sm-8 mb">
-            <div id="monthly-graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-        </div>
         <div class="col-md-4 col-sm-4 mb">
             <div class="content-panel" style="height:400px; overflow: auto;">
                 <h4 class="text-center"><strong>Monthly Reports</strong></h4><br>
@@ -60,14 +50,25 @@
                     <thead>
                     <tr>
                         <th><i class=""></i>Date</th>
-                        <th><i class=""></i>Sales</th>
-                        <th><i class=""></i>Profit</th>
+                        <th><i class=""></i>Amount</th>
+                        <th><i class=""></i>Discount</th>
+                        <th><i class=""></i>Grand Total</th>
                     </tr>
                     </thead>
                     <tbody class="monthly-sales-tbody">
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-md-12 col-sm-12 mb">
+            <div id="daily_graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+        </div>
+    </div>
+    <div class="row mt">
+        <div class="col-md-12 col-sm-12 mb">
+            <div id="monthly-graph" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
         </div>
     </div>
 </div>

@@ -31,6 +31,9 @@
     .home_icon:hover{
         color:#fff;
     }
+    .right_div{
+        float:right;
+    }
 </style>
 <body>
 
@@ -42,28 +45,34 @@
     <header class="header black-bg">
         <a href="{% url 'dashboard' %}" class="home_icon"><i class="fa fa-home fa-3x"></i></a>
         <a href="{% url 'dashboard' %}" class="logo"><b>Patient Information System</b></a>
+        <div class="right_div">
+            <div class="top-menu ">
+                <a tabindex="logout" class="btn btn-primary" href="{% url 'logout' %}" style="margin-top: 12px;">Logout</a>
+            </div>
+        </div>
+        </div>
     </header>
     <!--header end-->
 
     <!--main content start-->
     <!--<section id="main-content">-->
-        <section class="wrapper">
-            <div class="row">
-                {% block content %}{% endblock %}
-            </div>
-        </section>
+    <section class="wrapper">
+        <div class="row">
+            {% block content %}{% endblock %}
+        </div>
+    </section>
     <!--</section>-->
 
     <!--main content end-->
     <!--footer start-->
-{#    <footer class="site-footer">#}
-{#        <div class="text-center">#}
-{#            2018 Partum Solutions#}
-{#            <a href="" class="go-top">#}
-{#                <i class="fa fa-angle-up"></i>#}
-{#            </a>#}
-{#        </div>#}
-{#    </footer>#}
+    {#    <footer class="site-footer">#}
+    {#        <div class="text-center">#}
+        {#            2018 Partum Solutions#}
+        {#            <a href="" class="go-top">#}
+            {#                <i class="fa fa-angle-up"></i>#}
+            {#            </a>#}
+        {#        </div>#}
+    {#    </footer>#}
     <!--footer end-->
 </section>
 <!-- js placed at the end of the document so the pages load faster -->

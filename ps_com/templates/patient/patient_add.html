@@ -2,7 +2,6 @@
 
 {% block content %}
     <div class="col-md-6">
-        <br>
         <a href="{% url 'patient_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Patient List</button></a>
         <br><br><br>
         <div class="content-panel">
@@ -11,18 +10,18 @@
                 <form class="form-horizontal add-submit" action="{% url 'patient_add' %}" method="post" autocomplete="off" >
                     <div class="form-group">
                         <div class="col-sm-12 col-md-12">
-                            <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
                             <label><strong>First Name</strong></label>
+                            <span class="name_error" style="color: red; display: none">Paitent Name is Required</span>
                             <input type="text" class="form-control first_name" name="first_name" placeholder="First Name"><br>
                             <label><strong>Last Name</strong></label>
                             <input type="text" class="form-control last_name" name="last_name" placeholder="Last Name(optional) "><br>
-                            <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
                             <label><strong>Cnic</strong></label>
                             <input type="text" class="form-control cnic" name="cnic" placeholder="Cnic "><br>
                             <label><strong>Phone</strong></label>
+                            <span class="phone_error" style="color: red; display: none">please add Phone Number</span>
                             <input type="text"  class="form-control phone" name="phone" placeholder="Phone"><br>
-                            <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
                             <label><strong>D.O.B</strong></label>
+                            <span class="birth-error" style="color: red; display: none">Please Provide D.O.B</span>
                             <input type="date" class="form-control date_of_birth" name="date_of_birth">
                         </div>
                     </div>
@@ -47,7 +46,7 @@
                                 <option>O-</option>
                             </select><br>
                             <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
-                            <button type="button" class="btn btn-info" style="float: right">Add Patient</button>
+                            <button type="button" class="btn btn-info add_patient" style="float: right">Add Patient</button>
                         </div>
                     </div>
                 </form>
@@ -56,7 +55,7 @@
     </div>
     <script>
     $('.document').ready(function () {
-        $('.btn-primary').on ('click', function () {
+        $('.add_patient').on ('click', function () {
                 var error = false;
             if ($('.first_name').val()==""){
                 $('.name_error').show();
@@ -87,13 +86,20 @@
     });
     $('.first_name').keyup(function () {
         $('.name_error').hide();
-    })
+    });
+    function checkDec(el){
+            var ex = /^[0-9]+\.?[0-9]*$/;
+            if(ex.test(el.value)==false){
+                el.value = el.value.substring(0,el.value.length - 1);
+            }
+        }
     $('.phone').keyup(function () {
         $('.phone_error').hide();
-    })
+        checkDec(this);
+    });
     $('.date_of_birth').keyup(function () {
         $('.birth-error').hide();
-    })
+    });
 
     </script>
 

@@ -2,13 +2,12 @@
 
 {% block content %}
 <div class="col-md-7 col-md-offset-2">
-    <br>
     <a href="{% url 'appointment_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Appointment List</button></a>
         <br><br><br>
     <div class="content-panel table-responsive">
         <h3 class="text-center">{{patient.patient_id}}||Patient Appointment Detail</h3>
         <div class="panel-body">
-            <form class="form-horizontal add-form" action="{% url 'update_appointment' pk=object.id %}" method="post" >
+            <form class="form-horizontal add-form" action="{% url 'update_appointment' pk=object.id %}" method="post" autocomplete="off">
                 <div class="form-group">
                     {% csrf_token %}
                     <div class="col-sm-12 col-md-6">
@@ -53,7 +52,7 @@
                         <input type="date" class="form-control appointment_date" name="appointment_date" value="{{ object.appointment_date|date:'Y-m-d'}}"><br>
                         <label><strong>Clinical Notes</strong></label>
                         <textarea class="form-control clinical_notes" name="clinical_notes" rows="5"> {{ object.clinical_notes}} </textarea><br>
-                        <button type="button" class="btn btn-primary" style="float: right">Update Appointment</button>
+                        <button type="button" class="btn btn-info update" style="float: right">Update Appointment</button>
                     </div>
                 </div>
             </form>
@@ -65,7 +64,7 @@
 
         $('.status').val('{{ object.status }}')
 
-        $('.btn-primary').on('click', function () {
+        $('.update').on('click', function () {
             var error = false;
             if ($('.doctor_name').val() == "") {
                 $('.name_error').show();

@@ -8,7 +8,7 @@
         <div class="content-panel">
             <h3 class="text-center">Add New Doctor</h3>
             <div class="panel-body">
-                <form class="form-horizontal add-submit" action="{% url 'doctor_add' %}" method="post" >
+                <form class="form-horizontal add-submit" action="{% url 'doctor_add' %}" method="post" autocomplete="off">
                     <div class="form-group">
                         <div class="col-md-6">
                             {% csrf_token %}
@@ -17,30 +17,28 @@
                             <span class="name-error" style="color:red; display:none">The field is required</span>
                             <input type="text" class="form-control name" name="name"><br>
                             <label><strong>Mobile Number</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
-                            <input type="text"  class="form-control mobile" name="mobile"><br>
+                            <span class="phone-error" style="color:red; display:none">The field is required</span>
+                            <input type="text"  class="form-control phone" name="mobile"><br>
                             <label><strong>Email</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
+                            <span class="email-error" style="color:red; display:none">The field is required</span>
                             <input type="email"  class="form-control email" name="email"><br>
                             <label><strong>Date OF Birth</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
+                            <span class="birth-error" style="color:red; display:none">The field is required</span>
                             <input type="date" class="form-control date_of_birth" name="date_of_birth"><br>
                             <label><strong>Designation</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
+                            <span class="designation-error" style="color:red; display:none">The field is required</span>
                             <input type="text" class="form-control designation" name="designation"><br>
                         </div>
                         <div class="col-md-6">
                             <label><strong>Department</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
+                            <span class="department-error" style="color:red; display:none">The field is required</span>
                             <input type="text" class="form-control department" name="department"><br>
                             <label><strong>Sex</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <select class="form-control sex-option" name="sex">
                                 <option>male</option>
                                 <option>female</option>
                             </select><br>
                             <label><strong>Blood Group</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
                             <select class="form-control blood-group" name="blood_group">
                                 <option>A+</option>
                                 <option>A-</option>
@@ -52,16 +50,105 @@
                                 <option>O-</option>
                             </select><br>
                             <label><strong>Address</strong></label>
-                            <span class="name-error" style="color:red; display:none">The field is required</span>
-                            <textarea class="form-control" name="address" rows="5"></textarea><br>
+                            <span class="address-error" style="color:red; display:none">The field is required</span>
+                            <textarea class="form-control address" name="address" rows="5"></textarea><br>
                             <input type="hidden" value="{{ request.user.user_clinic.clinic.id }}" name="clinic">
                         </div>
                         <div class="col-md-3 pull-right">
-                            <button type="submit" class="btn btn-info" style="width: 100%">Add Doctor</button>
+                            <button type="button" class="btn btn-info add_doctor" style="width: 100%">Add Doctor</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+<script>
+$('.document').ready(function () {
+        $('.add_doctor').on ('click', function () {
+                var error = false;
+            if ($('.name').val()==""){
+                $('.name-error').show();
+                error = true;
+            }
+            else {
+                $('.name_error').hide()
+            }
+            if ($('.phone').val()==""){
+                $('.phone-error').show();
+                error = true;
+            }
+            else{
+                $('.phone-error').hide();
+            }
+            if ($('.date_of_birth').val()==""){
+                $('.birth-error').show();
+                error = true;
+            }
+            else {
+                $('.birth-error').hide();
+            }
+            if ($('.email').val()==""){
+                $('.email-error').show();
+                error = true;
+            }
+            else {
+                $('.email-error').hide();
+            }
+            if ($('.address').val()==""){
+                $('.address-error').show();
+                error = true;
+            }
+            else {
+                $('.address-error').hide();
+            }
+            if ($('.department').val()==""){
+                $('.department-error').show();
+                error = true;
+            }
+            else {
+                $('.department-error').hide();
+            }
+            if ($('.designation').val()==""){
+                $('.designation-error').show();
+                error = true;
+            }
+            else {
+                $('.designation-error').hide();
+            }
+            if (error == false ){
+                $('.add-submit').submit();
+            }
+
+        })
+    });
+    $('.name').keyup(function () {
+        $('.name-error').hide();
+    });
+    function checkDec(el){
+            var ex = /^[0-9]+\.?[0-9]*$/;
+            if(ex.test(el.value)==false){
+                el.value = el.value.substring(0,el.value.length - 1);
+            }
+        }
+    $('.phone').keyup(function () {
+        $('.phone-error').hide();
+        checkDec(this);
+    });
+    $('.date_of_birth').keyup(function () {
+        $('.birth-error').hide();
+    })
+    $('.email').keyup(function () {
+        $('.email-error').hide();
+    })
+    $('.address').keyup(function () {
+        $('.address-error').hide();
+    })
+    $('.department').keyup(function () {
+        $('.department-error').hide();
+    })
+    $('.designation').keyup(function () {
+        $('.designation-error').hide();
+    })
+    </script>
+
 {% endblock %}

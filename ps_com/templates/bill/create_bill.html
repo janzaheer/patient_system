@@ -7,17 +7,17 @@
         <div class="content-panel">
             <h3 class="text-center">Create New Bill</h3>
             <div class="panel-body">
-                <form class="form-horizontal add-form" action="{% url 'create_appointment_bill' pk=appointment.id %}" method="post" >
+                <form class="form-horizontal add-form" action="{% url 'create_appointment_bill' pk=appointment.id %}" method="post" autocomplete="off">
                     <div class="form-group">
                         <div class="col-sm-12">
                             <input type="hidden" class="form-control" name="appointment" value="{{ appointment.id }}"><br>
-                            <span class="amount-error" style="color: red; display: none">Please Add ammont</span>
                             <label><strong>Amount</strong></label>
+                            <span class="amount-error" style="color: red; display: none">Please Add ammont</span>
                             <input type="number" class="form-control amount" name="amount" placeholder="Amount"><br>
                             <label><strong>Discount</strong></label>
                             <input type="number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" class="form-control discount" name="discount" placeholder="discount"><br>
                             <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
-                            <button type="button" class="btn btn-primary" style="float: right">Add Bill</button>
+                            <button type="button" class="btn btn-info create" style="float: right">Add Bill</button>
                         </div>
                     </div>
                 </form>
@@ -27,7 +27,7 @@
 
     <script>
     $('.document').ready(function () {
-        $('.btn-primary').on('click',function () {
+        $('.create').on('click',function () {
                 var error = false;
             if ($('.patient_id').val()=="" ) {
                 $('.patient-error').show();

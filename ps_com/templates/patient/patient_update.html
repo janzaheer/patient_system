@@ -7,7 +7,7 @@
     <div class="content-panel">
         <h3 class="text-center">Update Patient</h3>
         <div class="panel-body">
-            <form class="form-horizontal add-submit" action="{% url 'patient_update' pk=patient.id %}" method="post" >
+            <form class="form-horizontal add-submit" action="{% url 'patient_update' pk=patient.id %}" method="post" autocomplete="off">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="col-sm-12     ">
@@ -49,7 +49,7 @@
                             <option>O-</option>
                         </select><br>
                         <input type="hidden" name="clinic" value="{{ request.user.user_clinic.clinic.id }}">
-                        <button type="button" class="btn btn-info" style="float: right">Update Patient</button>
+                        <button type="button" class="btn btn-info update" style="float: right">Update Patient</button>
                     </div>
                 </div>
             </form>
@@ -58,7 +58,7 @@
 </div>
 <script>
     $('.document').ready(function () {
-        $('.btn-primary').on ('click', function () {
+        $('.update').on ('click', function () {
                 var error = false;
             if ($('.first_name').val()==""){
                 $('.name_error').show();

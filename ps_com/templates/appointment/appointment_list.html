@@ -39,7 +39,7 @@
                                 {% if appointment.has_bill %}
                                     <a href="{% url 'bill_view' pk=appointment.appointment_bill_id %}"><button class="btn btn-danger btn-md" title="View Bill"><i class="fa fa-eye"></i></button></a>
                                 {% else %}
-                                    <a href="{% url 'create_appointment_bill' pk=appointment.id %}"><button class="btn btn-success btn-md"><i class="fa fa-plus"></i></button></a>
+                                    <a href="{% url 'create_appointment_bill' pk=appointment.id %}"><button class="btn btn-success btn-md" title="Create Bill"><i class="fa fa-plus"></i></button></a>
                                 {% endif %}
                             </td>
                         </tr>

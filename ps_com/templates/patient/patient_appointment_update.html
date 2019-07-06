@@ -7,7 +7,7 @@
     <div class="content-panel table-responsive">
         <h3 class="text-center">{{patient.patient_id}}||Patient Appointment Detail</h3>
         <div class="panel-body">
-            <form class="form-horizontal add-form" action="{% url 'patient_appointment_update' pk=object.id %}" method="post" >
+            <form class="form-horizontal add-form" action="{% url 'patient_appointment_update' pk=object.id %}" method="post" autocomplete="off">
                 <div class="form-group">
                     {% csrf_token %}
                     <div class="col-sm-12 col-md-6">
@@ -45,7 +45,7 @@
                     <label><strong>Clinical Notes</strong></label>
                     <textarea class="form-control clinical_notes" name="clinical_notes" rows="5"> {{ object.clinical_notes}} </textarea><br>
                     <input type="hidden" name="patient" value="{{ patient.id }}">
-                    <button type="button" class="btn btn-info" style="float: right">Update Appointment</button>
+                    <button type="button" class="btn btn-info update" style="float: right">Update Appointment</button>
                 </div>
         </div>
         </form>
@@ -54,7 +54,7 @@
 </div>
 <script>
     $('.document').ready(function () {
-        $('.btn-primary').on('click', function () {
+        $('.update').on('click', function () {
             var error = false;
             if ($('.doctor_name').val() == "") {
                 $('.name_error').show();

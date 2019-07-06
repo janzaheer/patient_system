@@ -27,7 +27,8 @@ from ps_com.views_billing import (
 from ps_com.view_doctor import (
     DoctorFormView, DoctorListView, DeletedoctorView,
     UpdatedoctorView, DoctorDetails, DoctorListView,
-    DoctorAppoinmentsListView, UpdateAppointmentView
+    DoctorAppoinmentsListView, UpdateAppointmentView,
+    DoctorMonthlyReportsView
 )
 
 
@@ -163,6 +164,11 @@ urlpatterns = [
         r'^doctor/appointment/(?P<pk>\d+)/update/$',
         UpdateAppointmentView.as_view(),
         name='update_doctor_appointment'
+    ),
+    url(
+        r'^doctor/(?P<doctor_id>\d+)/monthly/reports/$',
+        DoctorMonthlyReportsView.as_view(),
+        name='doctor_monthly_reports'
     ),
 
     # Reports API URLS

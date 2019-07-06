@@ -1,18 +1,22 @@
 from __future__ import unicode_literals
+
+import datetime
+from calendar import monthrange
+
 from django.core.urlresolvers import reverse
 from django.core.urlresolvers import reverse_lazy
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.utils import timezone
+from django.db.models import Sum
+from dateutil.relativedelta import relativedelta
 
 from ps_com.forms import DoctorForm, AppointmentForm
 from django.views.generic import DeleteView
 from django.views.generic import FormView, ListView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
-from ps_com.models import Doctor, AppointmentDetails, Patient
+from ps_com.models import Doctor, AppointmentDetails, Billing
 
 
 class DoctorFormView(FormView):
@@ -160,3 +164,94 @@ class UpdateAppointmentView(UpdateView):
             reverse('doctor_appointments',
                     kwargs={'doctor_id': obj.doctor.id})
         )
+
+
+class DoctorMonthlyReportsView(TemplateView):
+    template_name = 'doctor/monthly_reports.html'
+
+    @staticmethod
+    def sales_data(obj, month_date=None):
+        bill_amount = obj.aggregate(
+            total_bill=Sum('amount')
+        )
+        total_bill = (
+            int(bill_amount.get('total_bill')) if
+            bill_amount.get('total_bill') else 0
+        )
+        bill_discount = obj.aggregate(
+            total_discount=Sum('discount')
+        )
+
+        total_discount = (
+            int(bill_discount.get('total_discount')) if
+            bill_discount.get('total_discount') else 0
+        )
+
+        total = total_bill - total_discount
+
+        data = {
+            'amount': total_bill,
+            'discount': total_discount,
+            'total': total,
+        }
+
+        data.update({
+            'day': month_date.strftime('%B')
+        })
+
+        return data
+
+    def get_context_data(self, **kwargs):
+        context = super(
+            DoctorMonthlyReportsView, self).get_context_data(**kwargs)
+
+        date_month = timezone.now()
+        month_range = monthrange(
+            date_month.year, date_month.month
+        )
+        start_month = datetime.datetime(
+            date_month.year, date_month.month, 1)
+
+        end_month = datetime.datetime(
+            date_month.year, date_month.month, month_range[1]
+        )
+        monthly_bills = Billing.objects.filter(
+            appointment__doctor__id=self.kwargs.get('doctor_id'),
+            billing_date__gte=start_month,
+            billing_date__lt=end_month.replace(
+                        hour=23, minute=59, second=59)
+        )
+
+        reports = []
+        for month in range(12):
+            date_month = timezone.now() - relativedelta(months=month)
+            month_range = monthrange(
+                date_month.year, date_month.month
+            )
+            start_month = datetime.datetime(
+                date_month.year, date_month.month, 1)
+
+            end_month = datetime.datetime(
+                date_month.year, date_month.month, month_range[1]
+            )
+
+            billing = Billing.objects.filter(
+                appointment__doctor__id=self.kwargs.get('doctor_id'),
+                billing_date__gte=start_month,
+                billing_date__lt=end_month.replace(
+                        hour=23, minute=59, second=59)
+            )
+
+            data = self.sales_data(
+                obj=billing, month_date=end_month
+            )
+
+            reports.append(data)
+
+        context.update({
+            'monthly_bills': monthly_bills,
+            'monthly_reports': reports,
+            'doctor': Doctor.objects.get(id=self.kwargs.get('doctor_id'))
+        })
+
+        return context

@@ -42,9 +42,8 @@
                             <td>{{ doctor.blood_group }}</td>
                             <td>
                                 <a href="{% url 'update' pk=doctor.id %}"><button class="btn btn-primary btn-xs" style="background-color: #d8bc60; border-color: #d8bc60 " title="Edit doctor"><i class="fa fa-edit"></i></button></a>
-                                <!--<a href="{% url 'details' pk=doctor.id %}"><button class="btn btn-success btn-xs"><i class="fa fa-eye"></i></button></a>-->
                                 <a href="{% url 'doctor_appointments' doctor_id=doctor.id %}"><button class="btn btn-success btn-xs" title="Appointments List"><i class="fa fa-eye"></i></button></a>
-                                <a href="{% url 'delete' pk=doctor.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
+                                <a href="{% url 'doctor_monthly_reports' doctor_id=doctor.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-bar-chart-o "></i></button></a>
                             </td>
                         </tr>
                     {% endfor %}

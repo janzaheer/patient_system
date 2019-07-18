@@ -26,6 +26,14 @@ class AppointmentListView(ListView):
         return super(
             AppointmentListView, self).dispatch(request, *args, **kwargs)
 
+    def get_queryset(self):
+        queryset = self.queryset
+        if not queryset:
+            queryset = AppointmentDetails.objects.filter(
+                clinic=self.request.user.user_clinic.clinic)
+
+            return queryset.order_by('-id')
+
 
 class DeleteAppointmentView(DeleteView):
     model = AppointmentDetails
@@ -76,6 +84,15 @@ class UpdateAppointmentView(UpdateView):
     template_name = 'appointment/appointment_update.html'
     model = AppointmentDetails
     success_url = reverse_lazy('appointment_list')
+
+    def form_valid(self, form):
+        obj = form.save()
+        obj.appointment_time = '%s %s' % (
+            self.request.POST.get('app_time_format'),
+            self.request.POST.get('app_time')
+        )
+        obj.save()
+        return HttpResponseRedirect(reverse('appointment_list'))
 
     def dispatch(self, request, *args, **kwargs):
 

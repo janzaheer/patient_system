@@ -20,6 +20,7 @@
                 <th class="text-center">Doctor</th>
                 <th class="text-center">Patient</th>
                 <th class="text-center">Date</th>
+                <th class="text-center">Time</th>
                 <th class="text-center">Procedure</th>
                 <th class="text-center">Status</th>
                 <th class="text-center">Actions</th>
@@ -31,7 +32,8 @@
                 <td><a href="#">{{ appointment.appointment_id }}</a></td>
                 <td>{{ appointment.doctor.name|title }}</td>
                 <td>{{ appointment.patient.first_name|title }} {{ appointment.patient.last_name|title }}</td>
-                <td>{{ appointment.appointment_date  }}</td>
+                <td>{{ appointment.appointment_date }}</td>
+                <td>{{ appointment.app_time }} {{ appointment.app_time_format }}</td>
                 <td>{{ appointment.procedure  }}</td>
                 <td>{{ appointment.status  }}</td>
                 <td>

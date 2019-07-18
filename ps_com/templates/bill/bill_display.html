@@ -8,20 +8,20 @@
     }
 </style>
 <div class="col-md-6 col-md-offset-3">
-    <a href="{% url 'billing_list' %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Billing List</button></a>
-    <button class="btn btn-info btn-lg print-receipt" style="float: right" onclick="PrintDetails('printablediv')">Print Receipt</button>
-    <br><br><br>
+    <a href="{% url 'appointment_list' %}"><button type="button" class="btn btn-info btn-lg" >Appointments</button></a>
+    <button class="btn btn-info btn-lg print-receipt"  onclick="PrintDetails('printablediv')">Print Receipt</button>
+    <br><br>
     <div class="content-panel" id="printablediv">
         <div class="text-center">
             <h1>Receipt</h1>
-            <h4>Clinic Al-shafa</h4>
-            <p>Address : Zarghoon Road Quetta</p>
-            <p>Contact No : 03451197160</p>
+            <h4>{{ bill.clinic.name }}</h4>
+            <p>Address : {{ bill.clinic.address }}</p>
+            <p>Contact No : {{ bill.clinic.phone }}</p>
             <hr>
         </div>
         <div class="col-md-12">
-            <label class="pull-right">Recept No : 12345</label>
-            <label class="pull-left">Bill Date : 12/12/1990</label>
+            <label class="pull-right">Recept No : {{ bill.receipt_no }}</label>
+            <label class="pull-left">Bill Date : {{ bill.billing_date }}</label>
             <br>
             <br>
             <label>Doctor : {{bill.appointment.doctor.name|title}}</label>

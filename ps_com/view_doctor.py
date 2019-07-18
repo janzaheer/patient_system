@@ -43,12 +43,21 @@ class DoctorListView(ListView):
     paginate_by = 100
     template_name = 'doctor/list.html'
 
+
     def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
             return HttpResponseRedirect(reverse('login'))
 
         return super(
             DoctorListView, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset= self.queryset
+        if not queryset:
+            queryset = Doctor.objects.filter(
+                clinic=self.request.user.user_clinic.clinic)
+
+            return queryset.order_by('-id')
 
 
 class UpdatedoctorView(UpdateView):

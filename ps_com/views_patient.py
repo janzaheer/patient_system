@@ -12,7 +12,9 @@ from ps_com.models import AppointmentDetails, Patient, Doctor
 from ps_com.forms import PatientForm, AppointmentForm
 
 
-class PatientList(TemplateView):
+class PatientList(ListView):
+    model = Patient
+    paginate_by = 100
     template_name = 'patient/patient_list.html'
 
     def dispatch(self, request, *args, **kwargs):
@@ -21,6 +23,15 @@ class PatientList(TemplateView):
 
         return super(
             PatientList, self).dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = self.queryset
+        if not queryset:
+            queryset = Patient.objects.filter(
+                clinic=self.request.user.user_clinic.clinic)
+
+            return queryset.order_by('-id')
+
 
     @staticmethod
     def get_patients():
@@ -132,6 +143,10 @@ class AddPatientAppointmentFormView(FormView):
             obj.doctor = Doctor.objects.get(
                 name=self.request.POST.get('doctor_name')
             )
+            obj.appointment_time = '%s %s' % (
+                self.request.POST.get('app_time_format'),
+                self.request.POST.get('app_time')
+            )
             obj.save()
             return HttpResponseRedirect(reverse('patient_list'))
 
@@ -151,7 +166,8 @@ class AddPatientAppointmentFormView(FormView):
 
         context.update({
             'patient': self.get_patient_object(),
-            'doctors': Doctor.objects.all().order_by('name')
+            'doctors': Doctor.objects.filter(
+                clinic=self.request.user.user_clinic.clinic).order_by('name')
         })
         return context
 
@@ -207,9 +223,27 @@ class PatientAppointmentUpdateView(UpdateView):
 
     def form_valid(self, form):
         obj = form.save()
+        obj.doctor = Doctor.objects.get(
+            name=self.request.POST.get('doctor_name')
+        )
+        obj.appointment_time = '%s %s' % (
+            self.request.POST.get('app_time_format'),
+            self.request.POST.get('app_time')
+        )
+        obj.save()
 
         return HttpResponseRedirect(
-            reverse('patient_appointment_list',
+            reverse('patient_appointments',
                     kwargs={'patient_id': obj.patient.id}
                     )
         )
+
+    def get_context_data(self, **kwargs):
+        context = super(
+            PatientAppointmentUpdateView, self).get_context_data(**kwargs)
+        context.update({
+            'doctors': Doctor.objects.filter(
+                clinic=self.request.user.user_clinic.clinic
+            ).order_by('name')
+        })
+        return context

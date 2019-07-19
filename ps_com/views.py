@@ -30,6 +30,7 @@ class ReportsView(TemplateView):
         context = super(ReportsView, self).get_context_data(**kwargs)
 
         appointments = AppointmentDetails.objects.filter(
+            clinic=self.request.user.user_clinic.clinic,
             appointment_date__icontains=timezone.now().date()
         )
         context.update({

@@ -29,9 +29,9 @@
                 </tr>
                 </thead>
                 <tbody class="patient-table-body text-center">
-                {% for patient in patients %}
+                {% for patient in object_list %}
                     <tr>
-                        <td>{{ patient.first_name }} {{ patient.last_name }}</td>
+                        <td>{{ patient.first_name|title }} {{ patient.last_name|title }}</td>
                         <td >{{ patient.patient_id }}</td>
                         <td>{{ patient.phone }}</td>
                         <td>{{ patient.cnic }} </td>

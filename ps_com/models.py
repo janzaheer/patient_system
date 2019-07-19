@@ -140,7 +140,7 @@ class Patient(models.Model):
     )
 
     def __unicode__(self):
-        return '%s %s' % (self.first_name.title(), self.last_name.title())
+        return '%s %s' % (self.first_name, self.last_name)
 
 
 class AppointmentDetails(models.Model):
@@ -166,7 +166,11 @@ class AppointmentDetails(models.Model):
     )
     procedure = models.TextField(max_length=500, blank=True, null=True)
     description = models.TextField(max_length=1000, blank=True, null=True)
-    appointment_date = models.DateField()
+    appointment_date = models.DateField(default=timezone.now, blank=True, null=True)
+    appointment_time = models.CharField(
+        max_length=200, blank=True, null=True,
+        help_text="eg: AM 10:00"
+    )
     clinical_notes = models.TextField(max_length=512, blank=True, null=True)
     status = models.CharField(
         choices=STATUSES, default=STATUS_OPEN, blank=True, null=True, max_length=200
@@ -174,7 +178,7 @@ class AppointmentDetails(models.Model):
 
     def __unicode__(self):
         return '%s %s' % (
-            self.patient.first_name.title(), self.patient.last_name.title()
+            self.patient.first_name, self.patient.last_name
         )  if self.patient else ''
 
     def has_bill(self):
@@ -187,6 +191,20 @@ class AppointmentDetails(models.Model):
     def appointment_bill_id(self):
         latest_bill = self.appointment_bill.all().latest('id')
         return latest_bill.id
+
+    def app_time(self):
+        if self.appointment_time:
+            app_time_list = self.appointment_time.split(' ')
+            return app_time_list[1]
+
+        return ''
+
+    def app_time_format(self):
+        if self.appointment_time:
+            app_time_list = self.appointment_time.split(' ')
+            return app_time_list[0]
+
+        return ''
 
 
 class Billing(models.Model):

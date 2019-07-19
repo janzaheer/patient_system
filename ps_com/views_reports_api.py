@@ -59,6 +59,7 @@ class DailySalesAPI(View):
         for day in range(12):
             sales_day = timezone.now() - relativedelta(days=day)
             billing = Billing.objects.filter(
+                clinic=self.request.user.user_clinic.clinic,
                 billing_date__icontains=sales_day.date()
             )
 
@@ -89,6 +90,7 @@ class MonthlySalesAPI(DailySalesAPI):
             )
 
             billing = Billing.objects.filter(
+                clinic=self.request.user.user_clinic.clinic,
                 billing_date__gte=start_month,
                 billing_date__lt=end_month.replace(
                         hour=23, minute=59, second=59)

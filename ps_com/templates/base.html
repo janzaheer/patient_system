@@ -44,7 +44,7 @@
     <!--header start-->
     <header class="header black-bg">
         <a href="{% url 'dashboard' %}" class="home_icon"><i class="fa fa-home fa-3x"></i></a>
-        <a href="{% url 'dashboard' %}" class="logo"><b>Patient Information System</b></a>
+        <a href="{% url 'dashboard' %}" class="logo"><b>{{ request.user.user_clinic.clinic.name|title }}</b></a>
         <div class="right_div">
             <div class="top-menu ">
                 <a tabindex="logout" class="btn btn-primary" href="{% url 'logout' %}" style="margin-top: 12px;">Logout</a>

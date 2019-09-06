@@ -32,7 +32,7 @@
                 {% for patient in object_list %}
                     <tr>
                         <td>{{ patient.first_name|title }} {{ patient.last_name|title }}</td>
-                        <td >{{ patient.patient_id }}</td>
+                        <td>{{ patient.patient_id }}</td>
                         <td>{{ patient.phone }}</td>
                         <td>{{ patient.cnic }} </td>
                         <td>{{ patient.date_of_birth  }}</td>
@@ -42,6 +42,7 @@
                             <a href="{% url 'patient_update' pk=patient.id%}"><button class="btn btn-primary btn-md" style="background-color: #d8bc60; border-color: #d8bc60 " title="Edit Patient"><i class="fa fa-edit"></i></button></a>
                             <a href="{% url 'patient_add_appointment' patient_id=patient.id %}"><button class="btn btn-primary btn-md" title="Add Appointment"><i class="fa fa-plus"></i></button></a>
                             <a href="{% url 'patient_appointments' patient_id=patient.id %}"><button class="btn btn-success btn-md" title="Appointments List"><i class="fa fa-eye"></i></button></a>
+                            <a href="{% url 'patient_xray' patient_id=patient.id  %}"><button class="btn btn-primary btn-md" title=" Patient Xray"><i class="fa fa-upload"></i></button></a>
                             <!--<a href="{% url 'patient_delete' pk=patient.id %}"><button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>-->
                         </td>
                     </tr>

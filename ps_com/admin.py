@@ -4,7 +4,7 @@ from django.contrib import admin
 
 from ps_com.models import Patient
 from ps_com.models import AppointmentDetails
-from ps_com.models import Billing, Clinic, ClinicUser, Doctor
+from ps_com.models import Billing, Clinic, ClinicUser, Doctor, PatientXRay
 
 
 class ClinicAdmin(admin.ModelAdmin):
@@ -70,9 +70,16 @@ class BillingAdmin(admin.ModelAdmin):
         return obj.amount - obj.discount
 
 
+class PatientXRayAdmin(admin.ModelAdmin):
+    list_display = (
+        '__unicode__', 'patient', 'added_date', 'image'
+    )
+
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(AppointmentDetails, AppointmentDetailsAdmin)
 admin.site.register(Clinic, ClinicAdmin)
 admin.site.register(ClinicUser, ClinicUserAdmin)
 admin.site.register(Doctor, DoctorAdmin)
 admin.site.register(Billing, BillingAdmin)
+admin.site.register(PatientXRay, PatientXRayAdmin)
+

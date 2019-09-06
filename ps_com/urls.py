@@ -47,6 +47,10 @@ from ps_com.views_reports_api import (
     DailySalesAPI, MonthlySalesAPI
 )
 
+from ps_com.views_XRay import (
+     PatientXRayView, PatientXrayListView
+)
+
 urlpatterns = [
     url(r'^$', DashboardView.as_view(), name='dashboard'),
     url(r'^reports/$', ReportsView.as_view(), name='reports'),
@@ -180,5 +184,18 @@ urlpatterns = [
         r'^monthly/reports/$', MonthlySalesAPI.as_view(),
         name='monthly_reports'
     ),
+
+
+    # PatientXRay Views
+    url(
+        r'^XRay/(?P<pk>\d+)/create/$',PatientXRayView.as_view(),
+        name='create_xray'
+    ),
+    url(
+        r'^patient/(?P<patient_id>\d+)/xray/$',
+         PatientXrayListView.as_view(),
+        name='patient_xray'
+    ),
+
 
 ]

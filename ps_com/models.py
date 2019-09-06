@@ -281,6 +281,18 @@ def create_save_appointment_id(sender, instance, created, **kwargs):
         instance.save()
 
 
+class PatientXRay(models.Model):
+    patient = models.ForeignKey(
+        Patient, related_name='patient_xray', blank=True, null=True
+    )
+    added_date = models.DateField(default=timezone.now, blank=True, null=True)
+    image = models.ImageField(upload_to="patient/xray/", null=True, blank=True
+    )
+
+    def __unicode__(self):
+        return self.patient.first_name if self.patient else ''
+
+
 # Signals
 post_save.connect(create_save_patient_id, sender=Patient)
 post_save.connect(create_save_receipt_no, sender=Billing)

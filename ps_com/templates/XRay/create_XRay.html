@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-md-6">
+    <a href="{% url 'patient_xray' patient_id=patient.id  %}"><button type="button" class="btn btn-info btn-lg" style="float: left">Patients XRay List</button></a>
+    <br><br><br>
+    <div class="content-panel">
+        <h3 class="text-center">Add New Patient XRay | {{patient}}</h3>
+        <div class="panel-body">
+            <form class="form-horizontal add-submit" action="{% url 'create_xray' pk=patient.id %}" method="post" autocomplete="off" >
+                <div class="form-group">
+                    <div class="col-sm-12 col-md-12">
+                        {% csrf_token %}
+                        <input type="hidden" name="patient" value="{{patient.id}}">
+                        <div class="file-field">
+                            <span>Choose Image</span>
+                            <input type="file" class="form-control image" name="image">
+                            <br><br>
+                            <span class="date-error" style="color: red; display: none">Please Provide Date</span>
+                            <input type="date" class="form-control added_date" name="added_date">
+                            <br><br>
+                            <button type="button" class="btn btn-info create_xray" style="float: right">Add XRay</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    $('.document').ready(function () {
+        $('.create_xray').on ('click', function () {
+                var error = false;
+
+            if ($('.added_date').val()==""){
+                $('.date-error').show();
+                error = true;
+            }
+            else {
+                $('.date-error').hide();
+            }
+            if (error == false ){
+                $('.add-submit').submit();
+            }
+
+        })
+    });
+    function checkDec(el){
+            var ex = /^[0-9]+\.?[0-9]*$/;
+            if(ex.test(el.value)==false){
+                el.value = el.value.substring(0,el.value.length - 1);
+            }
+        }
+    $('.added_date').keyup(function () {
+        $('.date-error').hide();
+    });
+</script>
+
+{% endblock %}

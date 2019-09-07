@@ -29,7 +29,8 @@
                             {% endif %}
                 </td>
                 <td>
-                    <a href=""><button class="btn btn-primary btn-md" style="background-color: #d8bc60; border-color: #d8bc60 " title="Update"><i class="fa fa-edit"></i></button></a>
+                    <a href="{% url 'delete_xray' pk=PatientXRay.id %}">
+                        <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button></a>
                 </td>
             </tr>
             {% endfor %}

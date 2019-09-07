@@ -1,9 +1,10 @@
 from django.http import Http404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse_lazy
 from ps_com.forms import PatientXRayForm
 from ps_com.models import PatientXRay
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, DeleteView
 from ps_com.models import Patient
 from django.views.generic import TemplateView
 
@@ -21,15 +22,6 @@ class PatientXRayView(FormView):
 
     def form_valid(self, form):
           obj = form.save(commit=False)
-          print self.request.POST.get('patient')
-          print self.request.POST.get('added_date')
-          print self.request.POST.get('image')
-          print "_____________________"
-          print "_____________________"
-          print "_____________________"
-          print "_____________________"
-          print "_____________________"
-          print "_____________________"
           obj.save()
 
           return HttpResponseRedirect(
@@ -83,3 +75,19 @@ class PatientXrayListView(ListView):
                 'patient': patient
             })
             return context
+
+class PatientXrayDeleteView(DeleteView):
+            model = PatientXRay
+            success_url = reverse_lazy('patient_list')
+            success_message = "Delete Patient Xray Successfully"
+
+            def dispatch(self, request, *args, **kwargs):
+                if not self.request.user.is_authenticated():
+                    return HttpResponseRedirect(reverse('login'))
+                return super(
+                    PatientXrayDeleteView, self).dispatch(
+                    request, *args, **kwargs)
+
+            def get(self, request, *args, **kwargs):
+                    return self.post(request, *args, **kwargs)
+

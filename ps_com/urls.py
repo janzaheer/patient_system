@@ -48,7 +48,7 @@ from ps_com.views_reports_api import (
 )
 
 from ps_com.views_XRay import (
-     PatientXRayView, PatientXrayListView
+     PatientXRayView, PatientXrayListView, PatientXrayDeleteView
 )
 
 urlpatterns = [
@@ -195,6 +195,11 @@ urlpatterns = [
         r'^patient/(?P<patient_id>\d+)/xray/$',
          PatientXrayListView.as_view(),
         name='patient_xray'
+    ),
+    url(
+        r'^patient/(?P<pk>\d+)/delete/xray/$',
+        PatientXrayDeleteView.as_view(),
+        name='delete_xray'
     ),
 
 

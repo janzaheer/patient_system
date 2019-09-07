@@ -75,6 +75,10 @@ class PatientXRayAdmin(admin.ModelAdmin):
         '__unicode__', 'patient', 'added_date', 'image'
     )
 
+    search_fields = (
+           'patient__name', 'patient__patient_id',
+    )
+
 admin.site.register(Patient, PatientAdmin)
 admin.site.register(AppointmentDetails, AppointmentDetailsAdmin)
 admin.site.register(Clinic, ClinicAdmin)

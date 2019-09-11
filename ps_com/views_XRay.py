@@ -13,12 +13,16 @@ class PatientXRayView(FormView):
     form_class = PatientXRayForm
     template_name='XRay/create_XRay.html'
 
+    # it will return user and its page
+
     def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated():
             return HttpResponseRedirect(reverse('login'))
 
         return super(PatientXRayView, self).dispatch(
             request, *args, **kwargs)
+
+    # complete form should be valid then it will be submit
 
     def form_valid(self, form):
           obj = form.save(commit=False)
@@ -30,8 +34,12 @@ class PatientXRayView(FormView):
                         )
            )
 
+    # incase if data is invalid tha form will not be submit
+
     def form_invalid(self, form):
         return super(PatientXRayView, self).form_invalid(form)
+
+    # this function get data and then sent data to fronthand
 
     def get_context_data(self, **kwargs):
         context = super(
@@ -47,6 +55,8 @@ class PatientXrayListView(ListView):
         paginate_by = 200
         template_name = 'XRay/patient_xray.html'
 
+        # it will return user and its page
+
         def dispatch(self, request, *args, **kwargs):
 
             if not self.request.user.is_authenticated():
@@ -56,11 +66,15 @@ class PatientXrayListView(ListView):
                 PatientXrayListView, self).dispatch(
                 request, *args, **kwargs)
 
+        # this function create set
+
         def get_queryset(self):
             queryset = PatientXRay.objects.filter(
                 patient=self.kwargs.get('patient_id')
             ).order_by('-id')
             return queryset
+
+        # this function get data and then sent data to fronthand
 
         def get_context_data(self, **kwargs):
             context = super(
@@ -80,6 +94,8 @@ class PatientXrayDeleteView(DeleteView):
             model = PatientXRay
             success_url = reverse_lazy('patient_list')
             success_message = "Delete Patient Xray Successfully"
+
+            # it will return user and its page
 
             def dispatch(self, request, *args, **kwargs):
                 if not self.request.user.is_authenticated():

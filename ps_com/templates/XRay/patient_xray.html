@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <div class="col-md-12">
     <br>
@@ -24,9 +23,9 @@
                 <td>{{ PatientXRay.patient.first_name|title }} {{ PatientXRay.patient.last_name|title }} </td>
                 <td>{{ PatientXRay.patient.patient_id }}</td>
                 <td>
-                     {% if PatientXRay.image  %}
-                            <img src="{{PatientXRay.image.url}}" style="border-radius: 50%; width: 40px; height: 40px;">
-                            {% endif %}
+                    {% if PatientXRay.image  %}
+                        <img src="{{PatientXRay.image.url}}" style="border-radius: 50%; width: 40px; height: 40px;">\
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{% url 'delete_xray' pk=PatientXRay.id %}">
